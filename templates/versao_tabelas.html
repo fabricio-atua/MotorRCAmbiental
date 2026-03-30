@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Versão das Tabelas</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="versao-tabelas-body">
+    <div class="logo-container">
+        <!-- <img src="static/img/logo.webp" alt="Logo da Empresa" class="logo"> -->
+        <span class="logo-text" style="margin-left: 170px;">Versão Atual das Tabelas do Motor de Cálculo</span>
+        <a href="/painel" class="btn-voltar_upload" style="color: rgb(218, 9, 9);">← Voltar ao Painel</a>
+    </div>
+
+    {% if tabelas %}
+    <table class="versao-tabela">
+        <thead>
+            <tr>
+                <th>Nome da Tabela</th>
+                <th>Nº Tarifa</th>
+                <th>Data de Atualização</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tabela in tabelas %}
+            <tr>
+                <td>{{ tabela.nome }}</td>
+                <td>{{ tabela.nr_tarifa }}</td>
+                <td>{{ tabela.data_atualizacao }}</td>
+                <td>
+                    <form method="POST" action="/excluir_versao" onsubmit="return confirm('Tem certeza que deseja excluir a versão {{ tabela.nr_tarifa }} da tabela {{ tabela.nome }}?');">
+                        <input type="hidden" name="nome_tabela" value="{{ tabela.nome }}">
+                        <input type="hidden" name="nr_tarifa" value="{{ tabela.nr_tarifa }}">
+                        <button type="submit" class="btn-excluir-versao">Excluir Versão</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p style="text-align: center;">Nenhuma tabela encontrada.</p>
+    {% endif %}
+</body>
+</html>

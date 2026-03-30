@@ -1,0 +1,382 @@
+[
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "basal",
+    "pergunta": "cobertura",
+    "resposta": "FT_CAG1",
+    "relatividade": "",
+    "premio": 2029.69
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "certificacao_1",
+    "pergunta": "Certificação ISSO 14.0001",
+    "resposta": "Não",
+    "relatividade": "0.99324",
+    "premio": 2015.9693
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "certificacao_2",
+    "pergunta": "Certificação Mopp Para Motoristas",
+    "resposta": "Sim",
+    "relatividade": "0.97296",
+    "premio": 1961.4575
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "certificacao_3",
+    "pergunta": "Certificação Prodir -Associquim",
+    "resposta": "Sim",
+    "relatividade": "0.99000",
+    "premio": 1941.8429
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "certificacao_4",
+    "pergunta": "Certificação Sassmaq - Abiquim",
+    "resposta": "Sim",
+    "relatividade": "0.97972",
+    "premio": 1902.4623
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "certificacao_5",
+    "pergunta": "Programa De Gerenciamento De Risco",
+    "resposta": "Não",
+    "relatividade": "0.99648",
+    "premio": 1895.7657
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "ft_acondicionamento_granel",
+    "pergunta": "Granel",
+    "resposta": "Até 60%",
+    "relatividade": "1.00000",
+    "premio": 1895.7657
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "ft_acondicionamento_fracionado",
+    "pergunta": "Não Granel / Fracionado",
+    "resposta": "Até 70%",
+    "relatividade": "1.00000",
+    "premio": 1895.7657
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "canal",
+    "pergunta": null,
+    "resposta": "Corretor",
+    "relatividade": "1.00000",
+    "premio": 1895.7657
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "modal_1",
+    "pergunta": "Tipo de modais",
+    "resposta": "Rodoviário",
+    "relatividade": "1.00000",
+    "premio": 1895.7657
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "atividade_1",
+    "pergunta": "Tipo de Atividade",
+    "resposta": "Embarcador",
+    "relatividade": "1.00000",
+    "premio": 1895.7657
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Embarque_1",
+    "pergunta": "Produto Perigoso?",
+    "resposta": 2,
+    "relatividade": "1.00000",
+    "premio": 1895.7657
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Embarque_2",
+    "pergunta": "Quantidade de Embarque",
+    "resposta": "De 1.000 a 1.500",
+    "relatividade": "1.80000",
+    "premio": 3412.3782
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Embarque_3",
+    "pergunta": "LMI",
+    "resposta": "De R$650.001 a R$700.000",
+    "relatividade": "1.90481",
+    "premio": 6499.9321
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Perfil_motorista_1",
+    "pergunta": "Perfil do Motorista",
+    "resposta": "Transportadora",
+    "relatividade": "1.00000",
+    "premio": 6499.9321
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Perfil_motorista_2",
+    "pergunta": "Perfil do Motorista",
+    "resposta": "Agregado",
+    "relatividade": "0.99891",
+    "premio": 6492.8277
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Tipo de Seguro_1",
+    "pergunta": "Tipo de Seguro",
+    "resposta": "Renovação Congênere",
+    "relatividade": "1.00000",
+    "premio": 6492.8277
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "classe_1",
+    "pergunta": "Classe do Produto",
+    "resposta": "Classe 1 - Explosivos",
+    "relatividade": "1.89693",
+    "premio": 12316.4397
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "uf_27",
+    "pergunta": "UF",
+    "resposta": "SC",
+    "relatividade": "0.99000",
+    "premio": 12193.2753
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Prêmio de Risco",
+    "pergunta": "",
+    "resposta": "",
+    "relatividade": "",
+    "premio": 12193.2753
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Carregamento",
+    "pergunta": "Carreg. 1",
+    "resposta": "Inflação de Sinistro",
+    "relatividade": "1.00000",
+    "premio": 12193.2753
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Carregamento",
+    "pergunta": "Carreg. 2",
+    "resposta": "Tendências Estatística",
+    "relatividade": "1.00000",
+    "premio": 12193.2753
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Carregamento",
+    "pergunta": "Carreg. 3",
+    "resposta": "IBNR",
+    "relatividade": "1.00000",
+    "premio": 12193.2753
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Prêmio de Risco",
+    "pergunta": "",
+    "resposta": "",
+    "relatividade": "",
+    "premio": 12193.2753
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Carregamento",
+    "pergunta": "Carreg. 4",
+    "resposta": "Salvados",
+    "relatividade": "1.00000",
+    "premio": 12193.2753
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Carregamento",
+    "pergunta": "Carreg. 5",
+    "resposta": "Ressarcimento",
+    "relatividade": "1.00000",
+    "premio": 12193.2753
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Carregamento",
+    "pergunta": "Carreg. 6",
+    "resposta": "Sinistro Judicial",
+    "relatividade": "1.00000",
+    "premio": 12193.2753
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Prêmio de Risco",
+    "pergunta": "",
+    "resposta": "",
+    "relatividade": "",
+    "premio": 12193.2753
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Carregamento",
+    "pergunta": "Carreg. 7",
+    "resposta": "Carregamento de Segurança",
+    "relatividade": "1.05000",
+    "premio": 12802.939
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Prêmio Puro",
+    "pergunta": "",
+    "resposta": "",
+    "relatividade": "",
+    "premio": 12802.939
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Corretor",
+    "pergunta": "Comissão do Corretor",
+    "resposta": "20%",
+    "relatividade": "1.20000",
+    "premio": 15363.5268
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Carregamento",
+    "pergunta": "Carreg. 8",
+    "resposta": "Despesas Operacionais",
+    "relatividade": "1.02000",
+    "premio": 15670.7974
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Carregamento",
+    "pergunta": "Carreg. 9",
+    "resposta": "Despesas Administrativas",
+    "relatividade": "1.05000",
+    "premio": 16454.3372
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Carregamento",
+    "pergunta": "Carreg. 10",
+    "resposta": "Impostos",
+    "relatividade": "1.04650",
+    "premio": 17219.4639
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Carregamento",
+    "pergunta": "Carreg. 11",
+    "resposta": "Lucro",
+    "relatividade": "1.05000",
+    "premio": 18080.4371
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Prêmio Líquido",
+    "pergunta": "",
+    "resposta": "",
+    "relatividade": "",
+    "premio": 18080.4371
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Carregamento",
+    "pergunta": "Carreg. 12",
+    "resposta": "IOF",
+    "relatividade": "1.03800",
+    "premio": 18767.4937
+  },
+  {
+    "numero_cotacao": "20250500",
+    "versao_cotacao": "01",
+    "data_criacao_cotacao": "2025-05-16 13:31:22",
+    "fonte": "Prêmio Total",
+    "pergunta": "",
+    "resposta": "",
+    "relatividade": "",
+    "premio": 18767.4937
+  }
+]

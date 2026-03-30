@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: 'Mollen', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .search-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .search-box button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 7px;
+            overflow: hidden;
+        }
+        .results-table th {
+            background-color: #343a40;
+            color: white;
+            padding: 11px 14px;
+            text-align: left;
+        }
+        .results-table td {
+            padding: 9px 11px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .results-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .results-table tr:hover {
+            background-color: #e9ecef;
+        }
+        .logout-btn {
+            padding: 8px 16px;
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1 style="color: #4c5157; margin: 0;">Consulta Cotações</h1>
+        <h3 id="nome" style="margin-top: -10px; color: #555;"></h3>
+        <a href="/painel" class="btn-voltar_upload" style="color: rgb(218, 9, 9);">← Voltar ao Painel</a>
+    </div>
+    
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="inputNumero" placeholder="Digite o número da cotação" autofocus>
+            <button onclick="buscarCotacao()">
+                <i class="fas fa-search"></i> Buscar
+            </button>
+        </div>
+    </div>
+    
+    <table class="results-table" id="tabelaResultados">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Versão</th>
+                <th>Data Criação</th>
+                <th>Nome do Segurado</th>
+                <th>Prêmio Total (R$)</th>
+            </tr>
+        </thead>
+        <tbody id="tabelaCorpo">
+            <tr>
+                <td colspan="5" class="no-results">Digite um número de cotação e clique em Buscar</td>
+            </tr>
+        </tbody>
+    </table>
+
+<script src="{{ url_for('static', filename='js/consulta_cotacao.js') }}"></script>
+
+<div id="mensagem-sucesso" style="display: none; margin-top: 20px; padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px;">
+</div>
+
+</body>
+</html>

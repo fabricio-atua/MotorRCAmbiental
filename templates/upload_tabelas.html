@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload de Tabelas de Fatores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .file-names {
+            margin-top: 0px;
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+<body class="upload-body">
+    <div class="logo-container_upload">
+         <!-- <img src="static/img/logo.webp" alt="Logo da Empresa" class="logo_upload"> Linha 3 -->
+        <span class="logo-text_upload">Upload de Tabelas de Fatores</span>
+    </div>
+
+    <div class="upload-form-container">
+        <form action="/upload_tabelas" method="POST" enctype="multipart/form-data">
+            <label for="files">Selecione as Tabelas Excel:</label><br><br>
+            <input type="file" id="files" name="files" multiple accept=".xlsx"><br><br>
+            <div class="file-names" id="file-names"></div>
+            <input type="submit" value="Importar Tabelas" class="btn-importar_upload">
+        </form>
+
+        <br>
+        
+        <a href="/painel" class="btn-voltar_upload" style="color: rgb(218, 9, 9);">← Voltar ao Painel</a>
+
+        <br><br>
+        <div style="color: red; font-weight: bold;">
+            OBS: Tabelas com nome iniciando em CA_XXXX são únicas — apenas uma versão deve ser carregada.
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById('files').addEventListener('change', function () {
+            const fileList = this.files;
+            const fileNamesDiv = document.getElementById('file-names');
+            fileNamesDiv.innerHTML = '';
+
+            if (fileList.length > 0) {
+                const ul = document.createElement('ul');
+                for (let i = 0; i < fileList.length; i++) {
+                    const li = document.createElement('li');
+                    li.textContent = fileList[i].name;
+                    ul.appendChild(li);
+                }
+                fileNamesDiv.appendChild(ul);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,963 @@
+body {
+    font-family: 'Mollen', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+.form-container {
+    width: 100vw;  
+    max-width: none;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+.form-container h3 { /* Formatação subtítulo */
+    text-align: left;
+    margin-top: 50px; /* Adiciona espaço acima do texto*/
+    margin-bottom: 10px; /* Adiciona espaço abaixo do texto*/
+    font-size: 15pt; /* Aumenta o tamanho da fonte */
+    color: #145291;
+    font-weight: 600; /* Negrito para o subtítulo */
+    font-family: 'Mollen', sans-serif; /* Altera o tipo de fonte */
+}
+.form-container h5 { /* Formatação QAR */
+    text-align: left; /* Texto Centralizado*/
+    margin-bottom: 5px;
+    color: #FF2989;
+    font-size: 15pt; /* Aumenta o tamanho da fonte */
+    font-weight: 450; /* Negrito para o subtítulo */
+    font-family: 'Mollen', sans-serif; /* Altera o tipo de fonte */
+}
+.input-group {
+    display: grid;
+    gap: 30px; /* Maior espaçamento entre caixas */
+    width: 90%;
+}
+
+/********************************************************************************************/
+/*linha de separação*/
+hr {
+    border: 0;
+    border-top: 3px solid #145291; /* #00F400;Verde Cor e espessura da linha */
+    margin: 3px 0; /* Espaçamento acima e abaixo da linha */
+    margin-bottom: 15px; /* Aumenta o espaço abaixo da linha */
+}
+
+/********************************************************************************************/
+.espaco-superior {
+    margin-top: 30px;
+} 
+
+.espaco-superior_QAR {
+    margin-top: 10px;
+} 
+
+/********************************************************************************************/
+/*Formatação "DADOS DO SEGURADO PRINCIPAL" API*/
+.linha-1 {
+    grid-template-columns: 10% 60% 15% 17%;
+    margin-bottom: 20px; /* Espaçamento entre linhas */
+}
+.linha-2 {
+    grid-template-columns: 35% 5% 25% 25% 3.5% 5%;
+    margin-bottom: 20px; /* Espaçamento entre linhas */
+}
+.linha-3 {
+    grid-template-columns: 20% 30% 20% 15%;
+    margin-bottom: 20px; /* Espaçamento entre linhas */
+}
+/********************************************************************************************/
+/* Formatação "DEMAIS EMPRESAS DO GRUPO / SEGURADO" */
+.linha-grupoempresa {
+    display: grid;
+    grid-template-columns: 15% 30% 10% 10% 10%;
+    gap: 4%;
+    align-items: center;
+    margin-bottom: 5px; /* Espaçamento entre linhas */
+}
+.input-group div {
+    display: flex;
+    flex-direction: column;
+}
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.input-group label {
+    font-weight: normal;
+    margin-bottom: 5px;
+    
+}
+.button-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+}
+.button-container button, .btn-adicionar {
+    padding: 10px 20px;
+    background-color: #FF2989;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    min-width: 150px;
+    white-space: nowrap; /* Impede quebra de linha */
+}
+.btn-remover {
+    background-color: rgb(211, 60, 60);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    min-width: 150px;
+}
+
+/********************************************************************************************/
+/* Formatação: Botão Consulta Cotação /Proposta*/
+.consulta-cotacao-btn {
+    padding: 10px 20px;
+    background-color: #145291;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    min-width: 150px;
+    font-size: 13px;
+    font-family: 'Mollen', sans-serif; /* Altera o tipo de fonte */
+}
+.consulta-cotacao-input {
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Cantos arredondados */
+    padding: 9px;
+    font-size: 13px;
+    background-color: #f9f9f9; /* Cor igual à dos inputs superiores */
+}
+
+
+/********************************************************************************************/
+/* Formatação: Dados Corretor */
+.corretor-container {
+    display: grid;
+    grid-template-columns: 10% 30% 5% 20% 20%;
+    gap: 30px;  /* Espaço entre os campos */
+    font-family: 'Mollen', sans-serif; /* Altera o tipo de fonte */
+}
+.corretor-item {
+    display: flex;
+    flex-direction: column; /* Label em cima, input embaixo */
+}
+.corretor-item label {
+    font-weight: normal; /* Remove negrito */
+    margin-bottom: 4px; /* Dá um pequeno espaço entre label e input */
+}
+
+/********************************************************************************************/
+/* Formatação: COBERTURA */
+.cobertura-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-family: 'Mollen', sans-serif;
+}
+
+.cobertura-item {
+    display: flex;
+    flex-direction: column; /* Label em cima, input embaixo */
+}
+
+/* === Select de Cobertura Básica === */
+#cobertura_select {
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 12px;
+    font-family: 'Mollen', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    appearance: none;
+    width: 250px;       /* mesma largura do botão */
+    box-sizing: border-box;
+}
+
+#cobertura_select:hover {
+    background-color: #54789c;
+}
+
+/* Campo nome de cobertura (não alterado) */
+#nome_cobertura {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 9px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    font-family: 'Mollen', sans-serif;
+}
+
+/* === Botão Coberturas Adicionais === */
+.botao-cobertura {
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+
+    /* mesma largura do select */
+    width: 250px;
+    box-sizing: border-box;
+}
+
+/* Listas */
+.lista-subcoberturas,
+.lista-adicionais {
+    list-style-type: disc;
+    padding-left: 25px;
+}
+
+.espaco-superior {
+    margin-top: 10px;
+}
+
+/* Listagem da descrição */
+#descCcoberturas ul {
+    display: grid;
+    gap: 8px 20px;
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
+    font-size: 14px;
+    font-family: 'Mollen', sans-serif;
+}
+
+.item-adicional {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.lmi-input {
+    width: 160px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 13px;
+    background-color: #f9f9f9;
+}
+
+
+
+/********************************************************************************************/
+/* Formatação: CANAL */
+.canal-container {
+    display: grid;
+    grid-template-columns: 7% 30%;
+    gap: 30px;  /* Espaço entre os campos */
+    font-family: 'Mollen', sans-serif; /* Altera o tipo de fonte */
+}
+.canal-item {
+    display: flex;
+    flex-direction: column; /* Label em cima, input embaixo */
+}
+#canal_select {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 9px;
+    font-size: 12px;
+    background-color: #f9f9f9;
+    font-family: 'Mollen', sans-serif;
+}
+#nome_canal {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 9px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    font-family: 'Mollen', sans-serif;
+}
+
+.span-required{
+    font-size: 12px;
+    margin: 3px 0 0 1px;
+    color: var(--color-red);
+    display: none;
+    font-family: 'Mollen', sans-serif;
+}
+.input-group-span {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+/********************************************************************************************/
+/* Formatação: Caixas de Input de texto*/
+.money {
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Cantos arredondados */
+    padding: 8px;
+    width: 100%;
+    font-size: 13px;
+    background-color: #f9f9f9; /* Cor igual à dos inputs superiores */
+}
+
+/********************************************************************************************/
+/* Formatação: Destaque das perguntas*/
+.destacado-box {
+    background-color: #f9f9f9;       /* Define um fundo*/
+    padding: 6px;                     /* Adiciona espaçamento interno em todos os lados*/
+    border-left: 5px solid #145291;  
+    border-radius: 8px;                /* Arredonda os cantos da caixa */
+    box-shadow: 0px 2px 5px rgba(228, 9, 9, 0.1); /* Aplica uma sombra na parte inferior*/
+    margin-bottom: 5px; /* Espaçamento inferior entre esta caixa e o próximo elemento abaixo */
+}
+
+/********************************************************************************************/
+/* Formatação: LOGO  e TITULO DO MOTOR*/
+.logo-container {
+    position: relative;
+    display: flex; /* Alinha os itens horizontalmente */
+    align-items: center; /* Centraliza verticalmente o logo e o texto */
+    justify-content: center; /* Mantém o logo no lado esquerdo */
+    padding: 0 20px; /* Adiciona espaçamento interno */
+}
+.logo-container img {
+    position: absolute;
+    left: 20px; /* distância da esquerda */
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px; /* Adiciona espaço abaixo do texto */
+}
+.logo-container .logo-text {
+    font-size: 25px; /* Tamanho da fonte */
+    font-weight: bold; /* Texto em negrito */
+    color: #372424; /* Cor do texto */
+    text-align: center;
+    margin-bottom: 20px; /* Adiciona espaço abaixo do texto */
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+/* INICIO DA FORMATAÇÃO DO QAR-QUESTIONARIO DE AVALIAÇÃO DE RISCO*/
+
+/********************************************************************************************/
+/* Formatação: QAR 1:  TOP 5 PRODUTOS TRANSPORTADO*/
+.linha-QAR11 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 colunas de tamanho igual */
+    gap: 1%; /* Espaçamento entre as colunas */
+    align-items: start;
+    margin-bottom: 14px;
+}
+.linha-QAR11 div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.linha-QAR11 input {
+    padding: 10px;
+    font-size: 10px;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+/********************************************************************************************/
+/*Formatação: QAR 2:  EMBARQUE*/
+.embarque-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    white-space: nowrap; /* Impede que o texto quebre para a próxima linha */
+    max-width: 900px;
+}
+.linha-QAR21, .linha-QAR22 {
+    display: grid;
+    grid-template-columns: 35% 20% 20%; /* Ajuste manual das larguras */
+    gap: 70px; /* Espaço entre as colunas */
+}
+.pergunta div {
+    display: flex;
+    align-items: center; /* Mantém os itens alinhados verticalmente */
+    gap: 10px; /* Reduz o espaço entre os elementos */
+}
+.pergunta input[type="radio"] {
+    margin: 0 3px 0 0; /* Reduz espaço à direita da bolinha */
+}
+.pergunta input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+/* Ajusta os textos "Sim" e "Não" */
+.pergunta label {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+/********************************************************************************************/
+/*Formatação: QAR 3:  ACONDICIONAMENTO (Na mesma linha do QAR4*/
+.linha-QAR31{
+    display: grid;
+    grid-template-columns: 40% 40%; /* Ajuste manual das larguras */
+    gap: 25px; /* Espaço entre as colunas */
+}
+
+/********************************************************************************************/
+/*Formatação: QAR 4:  PERFIL DO MOTORISTA (Na mesma linha do QAR3*/
+.linha-QAR41 {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% ; /* 4 colunas iguais */
+    gap: 25px;
+    align-items: start; /* Mantém os itens alinhados pelo topo */
+
+}
+.pergunta {
+    display: flex;
+    flex-direction: column; /* Mantém os itens empilhados (checkbox em cima, input abaixo) */
+    align-items: flex-start; /* Alinha tudo à esquerda */
+    gap: 5px; /* Espaço entre os elementos */
+}
+.checkbox-container {
+    display: flex;
+    align-items: center; /* Garante que o checkbox e o label fiquem alinhados */
+    gap: 1px; /* Espaço entre o checkbox e o label */
+}
+.qar3e4-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* QAR-3 ocupa 1 parte, QAR-4 ocupa 2 partes */
+    white-space: nowrap; /* Impede que o texto quebre para a próxima linha */
+    gap: 20px; /*Espaço entre QAR3 e QAR4*/
+    align-items: start;
+    width: 100%;
+}
+
+/********************************************************************************************/
+/* Formatação: QAR 5:  PROGRAMA DE GERENCIAMENTO DE RISCO */
+.linha-QAR51 {
+    display: grid;
+    grid-template-columns: 19% 20% 19% 19% 19%; /* 4 colunas iguais */
+    gap: 25px;
+    align-items: start; /* Mantém os itens alinhados pelo topo */
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+.pergunta {
+    display: flex;
+    flex-direction: column; /* Mantém os itens empilhados (radio em cima, input abaixo) */
+    align-items: flex-start; /* Alinha tudo à esquerda */
+    gap: 5px; /* Espaço entre os elementos */
+}
+.checkbox-container {
+    display: flex;
+    flex-direction: row; /* Alinha os radio buttons lado a lado */
+    align-items: center; /* Garante que o checkbox e o label fiquem alinhados */
+    gap: 10px; /* Espaço entre o checkbox e o label */
+}
+/* Alinhamento dos botões "Sim" e "Não" lado a lado */
+.checkbox-container input[type="radio"] {
+    margin-right: 5px; /* Distância entre a bolinha e o texto */
+}
+/* Ajusta os textos "Sim" e "Não" */
+.pergunta label {
+    display: flex;
+    align-items: center;
+    margin-right: 10px; /* Alinha o label ao lado do input */
+}
+/* Formatação do campo de observações */
+.pergunta input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    font-size: 10px;
+}
+/********************************************************************************************/
+/* Formatação: QAR 6: TIPO DE SEGURO*/
+.linha-QAR61 {
+    display: flex;
+    gap: 10px;
+    white-space: nowrap;
+}
+.linha-QAR61 label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Reduz o espaço entre checkbox e texto */
+    margin: 0;
+    padding: 0;
+}
+.linha-QAR61.erro {
+    border: 2px solid #e63636;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 8px;
+}
+
+/********************************************************************************************/
+/* Formatação: QAR 7 e 8: MODAIS e ATIVIDADE*/
+.qar7e8-container {
+    display: flex; /* Coloca os itens lado a lado */
+    justify-content: space-between; /* Distribui os itens uniformemente */
+    gap: 1px; /* Adiciona um espaçamento entre os blocos */
+}
+.pergunta-box {
+    flex: 1; /* Faz com que os blocos ocupem o mesmo espaço */
+}
+/* Garante que os checkbox + label fiquem lado a lado */
+.linha-QAR7 {
+    display: flex;
+    gap: 10px; /* Espaçamento entre os itens (Rodoviário, Rodo-Fluvial...) */
+    flex-wrap: wrap; /* Permite quebra de linha se a tela for pequena */
+}
+.linha-QAR7.erro {
+    border: 2px solid #e63636;
+    padding: 12px;
+    border-radius: 6px;
+}
+/* Estiliza cada item (caixa + texto) */
+.linha-QAR7 .checkbox-container label {
+    font-size: 16px;
+    margin-top: 4px;
+}
+/* Aplica somente ao QAR-7 para manter o span abaixo */
+.checkbox-container-qar7 .span-required{
+    position: relative;
+    top: 100%; /* posiciona abaixo do container */
+    left: 0;
+    font-size: 12px;
+    margin-top: 2px;
+    display: none;
+}
+.checkbox-container-qar7 label {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Espaço entre a caixa e o texto */
+}
+
+/* Estilo dos checkboxes da QAR-8 */
+.validacao-atividade .checkbox-container-qar8 {
+    display: flex;
+    flex-direction: row;  /* Alinha checkbox e label lado a lado */
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    margin-bottom: 10px;  /* Espaçamento entre linhas */
+}
+/* Estilo do span de erro */
+.validacao-atividade .checkbox-container-qar8 .span-required {
+    position: absolute;
+    top: 100%; /* Logo abaixo do checkbox-container */
+    left: 0;
+    font-size: 12px;
+    margin-top: 2px;
+    display: none; /* Exibe apenas se necessário via JS */
+}
+.linha-QAR81 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1%;
+    align-items: start;
+    margin-bottom: 14px;
+}
+.linha-QAR81 div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.linha-QAR81 input {
+    padding: 10px;
+    font-size: 10px;
+    width: 90%;
+    box-sizing: border-box;
+}
+.linha-QAR81.erro {
+    border: 2px solid #e63636;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+
+/********************************************************************************************/
+/* Formatação: QAR 9: CLASSIFICAÇÃO DOS PRODUTOS - CLASSE*/
+table th {
+    font-weight: bold;       /* Remove o negrito dos títulos */
+    padding: 12px;             /* Espaço interno nas células de título */
+    color: #003366;
+}
+thead th {
+    font-size: 18px;           /* Tamanho da fonte do cabeçalho */
+    font-family: 'Mollen', sans-serif; /* Fonte personalizada para os títulos */
+}
+table th:first-child {
+    text-align: left;          /* Alinha o primeiro cabeçalho à esquerda */
+}
+table input[type="checkbox"] {
+    transform: scale(1.1);     /* Aumenta o tamanho do checkbox */
+    margin-left: 40px;         /* Espaço entre o checkbox e o conteúdo */
+}
+table input[type="number"] {
+    width: 80px;               /* Largura fixa dos inputs numéricos */
+    text-align: left;          /* Alinha texto à esquerda dentro do input */
+    margin-left: 10px;         /* Espaço entre o input e o checkbox */
+}
+tbody td {
+    padding: 2px 10px;         /* Espaçamento interno nas células da tabela */
+    vertical-align: middle;    /* Alinha verticalmente o conteúdo ao meio */
+    font-family: 'Mollen', sans-serif; /* Fonte personalizada nas células */
+    font-size: 14px;           /* Tamanho da fonte nas descrições */
+}
+.moneyclass {
+    border: 1px solid #ccc;    /* Borda cinza clara ao redor do input */
+    border-radius: 8px;        /* Cantos arredondados */
+    padding: 8px;              /* Espaço interno no input */
+    font-size: 11px;           /* Tamanho da fonte menor */
+    background-color: #f9f9f9; /* Cor de fundo clara, igual aos inputs superiores */
+    text-align: center;        /* Centraliza o texto dentro do input */
+    display: block;            /* Permite aplicar margem automática */
+    margin: 0 auto;            /* Centraliza o input na célula */
+}
+.linha-QAR91.erro {
+    border: 2px solid #e63636;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+
+
+
+/********************************************************************************************/
+/* Formatação: QAR 10 :Formatação: Seleção de Estados*/
+.titulo-regiao {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 16px 0 8px;
+    color: #003366;
+    font-family: 'Mollen', sans-serif;
+}
+.regiao-bloco {
+    margin-bottom: 30px;
+}
+.estados-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.estado-item {
+    display: flex;
+    align-items: center;
+    font-family: 'Mollen', sans-serif;
+    font-size: 13px;
+    gap: 2px;
+    /* Remove borda, fundo e padding extra */
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+.linha-QAR10.erro {
+    border: 2px solid #e63636;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+/********************************************************************************************/
+/* Formatação: ta Tela "Versão Atual das Tabelas" codigo html versao_tabelas.html */
+.versao-tabela {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.versao-tabela th,
+.versao-tabela td {
+    padding: 6px;
+    text-align: left;
+    border: 1px solid #ccc;
+    font-family: 'Mollen', sans-serif;
+}
+.versao-tabela th {
+    background-color: #f0f0f0;
+}
+.versao-tabela-h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    font-family: 'Mollen', sans-serif;
+    font-size: 24px;
+}
+.versao-tabelas-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding-top: 100px; /* Aumentado aqui */
+    min-height: 100vh;
+}
+.voltar {
+    display: block;
+    text-align: center;
+    margin: 30px auto;
+    font-family: 'Mollen', sans-serif;
+}
+/*Efeito Zebra*/
+.versao-tabela tbody tr:nth-child(even) {
+    background-color: #e1eaf0;
+}
+
+/********************************************************************************************/
+/* Formatação: Tela "Upload de Tabelas de Fatores" — código HTML upload_tabelas.html */
+.upload-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Mollen', sans-serif;
+    background-color: #f5f7fa;
+    padding-top: 120px; /* AUMENTA o espaçamento por causa da logo fixa */
+    min-height: 100vh;
+    margin: 0;
+}
+.logo-container_upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    width: 90%;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Garante que fique acima de tudo */
+    min-height: 80px; /* <=== Aqui está o truque */
+    box-sizing: border-box;
+}
+.logo_upload {
+    height: 50px;
+    margin-right: 20px;
+}
+.logo-text_upload {
+    font-family: 'Mollen', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #3724a5;
+}
+.upload-form-container {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    margin-top: 60px;
+}
+input[type="file"] {
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.btn-importar_upload {
+    background-color: #2f00ff;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn-voltar_upload {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
+.btn-voltar:hover {
+    text-decoration: underline;
+}
+
+/********************************************************************************************/
+/* Formatação: Do Texto "Processando" */
+#processando {
+    font-size: 16px;
+    margin-left: 10px;
+    color: #007bff;
+    display: flex;
+    align-items: center;
+}
+/* Estilo do círculo de carregamento */
+.loading-spinner {
+    border: 4px solid #f3f3f3; /* Cor do fundo */
+    border-top: 4px solid #3498db; /* Cor do círculo de carregamento */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    margin-right: 5px;
+}
+/* Animação de rotação */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/********************************************************************************************/
+/* Formatação: DEPURADOR" */
+#depurador-container {
+    font-family: 'Mollen', sans-serif;
+    margin: 30px;
+}
+#depurador-container h2 {
+    color: #333;
+    font-size: 23px;
+    margin-bottom: 5px;
+}
+#depurador-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+    font-size: 5px;
+}
+#depurador-table th,
+#depurador-table td {
+    padding: 3px 4px; /* mais compacto */
+    border: 1px solid #ccc; /* cor da grade*/
+    text-align: left;
+    font-family: 'Mollen', sans-serif;
+}
+#depurador-table th {
+    background-color: #f5f5f5; /* cor fundo cabeçario*/
+    font-weight: bold;
+    font-family: 'Mollen', sans-serif;
+}
+#depurador-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+#depurador-table tr:hover {
+    background-color: #c5dbf1;
+}
+.linha-premio {
+    color: #ee1313;    /* Cor do Texto */
+    font-family: 'Mollen', sans-serif;
+}
+
+
+/* ================================================================
+   TABELA DE VAALORES DAS COTAÇÕES QUE TEM DECONTO E AGRAVO
+=================================================================== */
+#tabela-cotacoes {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: 'Segoe UI', Arial, sans-serif; /* fonte padrão */
+    font-size: 14px; /* 🔹 tamanho do texto do corpo (AJUSTÁVEL) */
+    color: #333;
+}
+
+/* -------------------------------
+   CABEÇALHO
+-------------------------------- */
+#tabela-cotacoes thead th {
+    background-color: #003366; /* azul solicitado */
+    color: #ffffff;
+    text-align: center; /* 🔹 centralizado */
+    padding: 10px 8px;
+    font-size: 15px; /* 🔹 tamanho do cabeçalho (AJUSTÁVEL) */
+    font-weight: 600;
+    border: 1px solid #002244;
+}
+
+/* -------------------------------
+   CORPO DA TABELA
+-------------------------------- */
+#tabela-cotacoes tbody td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+    vertical-align: middle;
+    background-color: #ffffff;
+}
+
+/* Centralizar colunas específicas */
+#tabela-cotacoes tbody td:nth-child(1),
+#tabela-cotacoes tbody td:nth-child(2),
+#tabela-cotacoes tbody td:nth-child(3) {
+    text-align: center;
+}
+
+/* Valores monetários alinhados à direita */
+#tabela-cotacoes tbody td:nth-child(5),
+#tabela-cotacoes tbody td:nth-child(7) {
+    text-align: right;
+    font-weight: 500;
+}
+
+/* -------------------------------
+   INPUT DE AGRAVO / DESCONTO
+-------------------------------- */
+#tabela-cotacoes input.agravo-input {
+    width: 80px;
+    padding: 4px 6px;
+    text-align: right;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* -------------------------------
+   EFEITOS VISUAIS
+-------------------------------- */
+#tabela-cotacoes tbody tr:nth-child(even) {
+    background-color: #f7f9fc;
+}
+
+#tabela-cotacoes tbody tr:hover {
+    background-color: #eef3f8;
+}
+
+/* -------------------------------
+   RESPONSIVIDADE BÁSICA
+-------------------------------- */
+@media (max-width: 900px) {
+    #tabela-cotacoes {
+        font-size: 13px;
+    }
+
+    #tabela-cotacoes thead th {
+        font-size: 14px;
+    }
+}
+/* ================================
+   SUBTÍTULO ACIMA DA TABELA
+=================================== */
+#tabela-cotacoes-subtitulo {
+    font-family: 'Mollen', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #003366; /* mesma cor do cabeçalho da tabela */
+}
+
+/* ================================
+   NOTA ABAIXO DA TABELA
+=================================== */
+#tabela-cotacoes-nota {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 13px;
+    font-style: italic;
+    color: #f60404;
+    margin-top: 6px;
+}
+
+

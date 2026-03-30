@@ -1,0 +1,864 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor Cálculo STANG</title>
+    <link rel="stylesheet" href="static/css/style.css">
+
+</head>
+
+<body>
+    <form id="formMotorCalculo" method="POST">
+    <div class="form-container">
+        <div class="logo-container">
+            <img src="static/img/New_logo.png" alt="Logo da Empresa" class="logo"> 
+            <span class="logo-text">MOTOR DE CÁLCULO TRANSPORTE AMBIENTAL</span>
+        </div>
+        
+
+        <h3>CONSULTAR COTAÇÃO/PROPOSTA</h3>
+        <hr>
+        <a href="/consulta/login" class="consulta-cotacao-btn">
+            <i class="fas fa-search"></i> Painel de Consulta
+        </a>
+
+        <h3>DADOS DO SEGURADO PRINCIPAL</h3>
+        <hr>
+        <form method="POST">
+            <!-- Linha 1 -->
+            <div class="input-group linha-1">
+                <div>
+                    <label for="cnpj">CNPJ</label>
+                    <input type="text" class="money" name="cnpj" value="{{ cnpj }}" required pattern="\d{14}" title="O CNPJ deve ter 14 dígitos numéricos (sem pontos ou barras).">
+                    <span class="span-required">Digite o CNPJ do Segurado</span> 
+                </div>
+                <div>
+                    <label for="nome">Nome do Segurado</label>
+                    <input type="text" class="money" name="nome" value="{{ nome }}" readonly>
+                </div>
+                <div>
+                    <label for="situacao">Situação da Empresa</label>
+                    <input type="text" class="money" name="situacao" value="{{ situacao }}" readonly>
+                </div>
+                <div>
+                    <label for="porte">Porte da Empresa</label>
+                    <input type="text" class="money" name="porte" value="{{ porte }}" readonly>
+                </div>
+            </div>
+
+            <!-- Linha 2 -->
+            <div class="input-group linha-2">
+                <div>
+                    <label for="logradouro">Logradouro</label>
+                    <input type="text" class="money" name="logradouro" value="{{ logradouro }}" readonly>
+                </div>
+                <div>
+                    <label for="numero">Número</label>
+                    <input type="text" class="money" name="numero" value="{{ numero }}" readonly>
+                </div>
+                <div>
+                    <label for="municipio">Município</label>
+                    <input type="text" class="money" name="municipio" value="{{ municipio }}" readonly>
+                </div>
+                <div>
+                    <label for="bairro">Bairro</label>
+                    <input type="text" class="money" name="bairro" value="{{ bairro }}" readonly>
+                </div>
+                <div>
+                    <label for="uf">UF</label>
+                    <input type="text" class="money" name="uf" value="{{ uf }}" readonly>
+                </div>
+                <div>
+                    <label for="cep">CEP</label>
+                    <input type="text" class="money" name="cep" value="{{ cep }}" readonly>
+                </div>
+            </div>
+
+            <!-- Linha 3 -->
+            <div class="input-group linha-3">
+                <div>
+                    <label for="email">e-mail</label>
+                    <input type="text" class="money" name="email" value="{{ email }}" readonly>
+                </div>
+                <div>
+                    <label for="telefone">Telefone</label>
+                    <input type="text" class="money" name="telefone" value="{{ telefone }}" readonly>
+                </div>
+                <div>
+                    <label for="status">Status da Empresa</label>
+                    <input type="text" class="money" name="status" value="{{ status }}" readonly>
+                </div>
+                <div class="button-container">
+                    <button type="button" id="btnConsultarCNPJ">Consultar CNPJ</button>
+                </div>
+            </div>
+            
+            <h3 class="espaco-superior">DEMAIS EMPRESAS DO GRUPO / SEGURADO</h3>
+            <hr>
+            <div class="grupoempresa-container" id="empresasGrupo">
+                <div class="linha-grupoempresa">
+                    <input type="text" class="money cnpjGrupo" name="grupo_emp_cnpj[]" placeholder="CNPJ">
+                    <input type="text" class="money nomeGrupo" name="grupo_emp_nome[]" placeholder="Digite o Nome da Empresa">
+                    <input type="number" class="money participacaoGrupo" name="grupo_emp_participacao[]" placeholder="% Participação">
+                    <button type="button" class="btn-remover" onclick="removerEmpresa(this)">Remover</button>
+                    <!-- botão "Adicionar" só na primeira linha -->
+                    <button type="button" class="btn-adicionar" id="adicionarEmpresa">Adicionar Empresa</button>
+                </div>
+            </div>
+
+            <h3 class="espaco-superior">DADOS DO CORRETOR</h3>
+            <hr>
+                <div class="corretor-container">
+                    <div class="corretor-item">
+                        <label for="codigo_corretor">Código</label>
+                        <input type="number" class="money"  name="corretor_codigo" id="corretor_codigo" value="11542" required>
+                        <span class="span-required">Digite o Código do Corretor</span> 
+                    </div>
+                    <div class="corretor-item">
+                        <label for="nome_corretor">Nome</label>
+                        <input type="text" class="money" name="corretor_nome" id="corretor_nome" value="LOJACORR S/A REDE CORRET SEGUROS" required>
+                        <span class="span-required">Digite o Nome do Corretor</span>
+                    </div>
+                    <div class="corretor-item">
+                        <label for="comissao">Comissão</label>
+                        <input type="number" class="money" name="corretor_comissao" id="corretor_comissao" value=1 min="0" max="25" required>
+                        <span id="erro-comissao" class="span-required">Comissão entre 0% e 25%</span>
+                    </div>
+                    
+                    <script>
+                    const input = document.getElementById('corretor_comissao');
+                    const erro = document.getElementById('erro-comissao');
+                    
+                    input.addEventListener('input', () => {
+                        const valor = parseInt(input.value, 10);
+                        if (valor > 25) {
+                            erro.style.display = 'block';
+                            input.value = 25;
+                        } else {
+                            erro.style.display = 'none';
+                        }
+                    });
+                    </script>
+                    
+                    <div class="corretor-item">
+                        <label for="nome_contato">Nome de Contato</label>
+                        <input type="text" class="money" name="corretor_contato" id="corretor_contato" value="LOJACORR" required>
+                        <span class="span-required">Digite o Nome para Contato</span> 
+                    </div>
+                    <div class="corretor-item">
+                        <label for="telefone">Telefone</label>
+                        <input type="text" class="money" name="corretor_telefone" id="corretor_telefone" value="(11) 11111-11111" required>
+                        <span class="span-required">Digite o Telefone de Contato</span> 
+                    </div>
+                </div>
+                    
+
+            <h3 class="espaco-superior">COBERTURA</h3>
+            <hr>
+                <div class="cobertura-container">
+                    <!-- Cobertura Básica -->
+                    <div class="cobertura-item" id="cobertura-box">
+                        <label for="cobertura_select">Tipo de Cobertura</label>
+                        <select id="cobertura_select" name="ca_cobertura" class="campo-obrigatorio" required>
+                            <option value="">Selecione</option>
+                            <option value="CAG1" data-nome="Básica" selected>Básica</option>
+                        </select>
+                        <span class="span-required">Selecione uma cobertura</span>
+                    </div>
+
+                    <!-- Lista da cobertura básica -->
+                    <div id="descCoberturas" class="cobertura-item espaco-superior" style="display: none;">
+                        <ul class="lista-subcoberturas" id="listaSubcoberturas"></ul>
+                    </div>
+
+                <!-- Botão de Coberturas Adicionais -->
+                <div class="cobertura-item espaco-superior">
+                    <button id="btnAdicionais" type="button" class="botao-cobertura">Coberturas Adicionais</button>
+                </div>
+
+                <!-- Lista de coberturas adicionais -->
+                <div id="adicionaisContainer" class="cobertura-item espaco-superior" style="display: none;">
+                    <label><strong>Selecione as coberturas adicionais:</strong></label>
+                    <ul class="lista-adicionais">
+                        <li class="item-adicional">
+                            <label>
+                                <input type="checkbox" name="adicional" value="CA1" data-nome="Transporte Terrestre Rodoviário, Viagem Na Rodovia Com Percurso Complementar Fluvial">
+                                Transporte Terrestre Rodoviário, Viagem Na Rodovia Com Percurso Complementar Fluvial
+                            </label>
+                            <input type="text" id="ft_isagrupcobertura" name="ft_isagrupcobertura" class="lmi-input lmi-adicional" maxlength="12" placeholder="LMI (R$)" style="display:none;">
+                        </li>
+                        <li class="item-adicional">
+                            <label>
+                                <input type="checkbox" name="adicional" value="CA2" data-nome="Transporte Terrestre Rodoviário, Danos Morais">
+                                Transporte Terrestre Rodoviário, Danos Morais
+                            </label>
+                            <input type="text" id="ft_isagrupcobertura" name="ft_isagrupcobertura" class="lmi-input lmi-adicional" maxlength="12"placeholder="LMI (R$)" style="display:none;">
+                        </li>
+                        <li class="item-adicional">
+                            <label>
+                                <input type="checkbox" name="adicional" value="CA3" data-nome="Transporte Terrestre Gerenciamento De Crise">
+                                Transporte Terrestre Gerenciamento De Crise
+                            </label>
+                            <input type="text" id="ft_isagrupcobertura" name="ft_isagrupcobertura" class="lmi-input lmi-adicional" maxlength="12" placeholder="LMI (R$)" style="display:none;">
+                        </li>
+                        <li class="item-adicional">
+                            <label>
+                                <input type="checkbox" name="adicional" value="CA4" data-nome="Transporte Terrestre Rodoviário, Defesa Do Segurado Em Decorrência De Penalidades Administrativas">
+                                Transporte Terrestre Rodoviário, Defesa Do Segurado Em Decorrência De Penalidades Administrativas
+                            </label>
+                            <input type="text" id="ft_isagrupcobertura" name="ft_isagrupcobertura" class="lmi-input lmi-adicional" maxlength="12" placeholder="LMI (R$)" style="display:none;">
+                        </li>
+                        <li class="item-adicional">
+                            <label>
+                                <input type="checkbox" name="adicional" value="CA5" data-nome="Transporte Terrestre Vazamento De Produtos Acondicionados Em Veículos Transportadores">
+                                Transporte Terrestre Vazamento De Produtos Acondicionados Em Veículos Transportadores
+                            </label>
+                            <input type="text" id="ft_isagrupcobertura" name="ft_isagrupcobertura" class="lmi-input lmi-adicional" maxlength="12" placeholder="LMI (R$)" style="display:none;">
+                        </li>
+                    </ul>
+                </div>
+                </div>
+
+                <h3 class="espaco-superior">CANAL DE VENDA</h3>
+                <hr>
+                <div class="canal-container">
+                    <!-- Campo 1: Código do Canal -->
+                    <div class="canal-item" id="canal-box">
+                        <label for="canal_select">Código Canal</label>
+                        <select id="canal_select" name="ft_canal" class="campo-obrigatorio" required onchange="preencherCanal()">                            
+                            <option value="">Selecione</option>
+                            <option value="1" data-nome="Corretor" selected>1</option>
+                            <option value="2" data-nome="Banco">2</option>
+                        </select><span class="span-required">Selecione um canal</span>
+                    </div>
+                
+                    <!-- Campo 2: Nome do Canal (travado) -->
+                    <div class="canal-item">
+                        <label for="nome_canal">Nome do Canal</label>
+                        <input type="text" id="nome_canal" value="Corretor" readonly>
+                    </div>
+                </div>
+                
+           <h3 class="espaco-superior">QAR-QUESTIONÁRIO DE RISCO</h3>
+            <hr> 
+            
+            <!-- QAR-1  -->
+            <div class="destacado-box">
+                <h5 class="espaco-superior_QAR">Produtos Mais Transportados (Top 5)</h5>
+                <div class="linha-QAR11" id="QAR">
+                    <div>
+                        <input type="text" class="money" name="produto_top5[]" placeholder="Produto 1" required>
+                        <span class="span-required">Obrigatório preencher ao menos um</span>
+                    </div>
+                    <div>
+                        <input type="text" class="money" name="produto_top5[]" placeholder="Produto 2">
+                    </div>
+                    <div>
+                        <input type="text" class="money" name="produto_top5[]" placeholder="Produto 3">
+                    </div>
+                    <div>
+                        <input type="text" class="money" name="produto_top5[]" placeholder="Produto 4">
+                    </div>
+                    <div>
+                        <input type="text" class="money" name="produto_top5[]" placeholder="Produto 5">
+                    </div>
+                </div>
+            </div>
+
+            <!-- QAR-2  -->
+            <div class="destacado-box">
+                <h5 class="espaco-superior_QAR">Informações de Embarque</h5>    
+                <div class="embarque-container">
+                    <!-- Primeira linha (3 perguntas em uma linha) -->
+                    <div class="linha-QAR21">
+                        <!-- Campo: Produtos Perigosos -->
+                        <div class="pergunta">
+                            <label>Produtos Classificados Como Perigosos?</label>
+                            <div>
+                                <label>
+                                    <input type="radio" name="ft_prodperig" value="1" required> Sim
+                                </label>
+                                <label>
+                                    <input type="radio" name="ft_prodperig" value="2" required> Não
+                                </label>
+                            </div>
+                            <span class="span-required">Selecione uma opção</span>
+                        </div>
+                        
+                        <!-- Campo: Nº Mensal de Embarques OLD
+                        <div class="pergunta">
+                            <label for="embarques_faixa_qtd">Nº Mensal De Embarques</label>
+                            <select id="embarques_faixa_qtd" class="money" name="ft_qtde_embarque" required>
+                                <option value="0">Selecione...</option>
+                                <option value="1">1 a 50</option>
+                                <option value="2">51 a 100</option>
+                                <option value="3">101 a 200</option>
+                                <option value="4">201 a 300</option>
+                                <option value="5">301 a 400</option>
+                                <option value="6">401 a 500</option>
+                                <option value="7">501 a 750</option>
+                                <option value="8">751 a 1.000</option>
+                                <option value="9">1.001 a 1.500</option>
+                                <option value="10">1.500 a 2.000</option>
+                                <option value="11">2.001 a 2.500</option>
+                            </select><span class="span-required">Selecione uma faixa</span>
+                        </div>-->
+                        
+                        <!-- Campo: Nº Mensal de Embarques NEW Alterado 21/11/2025-->
+                        <div class="pergunta">
+                            <label for="embarques_qtd">Nº Mensal de Embarques</label>
+                            <input 
+                                type="texto" 
+                                id="ft_qtde_embarque" 
+                                name="ft_qtde_embarque" required
+                                placeholder="Digite a quantidade"
+                            >
+                            <span class="span-required">Informe o número de embarques (máx. 2.500)</span>
+                        </div>
+
+                        <!-- Campo: LMI cobertura Básica OLD
+                        <div class="pergunta">
+                            <label for="embarque_lmi">Seleção de LMI</label>
+                            <select id="embarque_lmi" class="money" name="ft_isagrupcobertura" required>
+                                <option value="0">Selecione...</option>
+                                <option value="1">100.000,00</option>
+                                <option value="2">200.000,00</option>
+                                <option value="3">300.000,00</option>
+                                <option value="4">400.000,00</option>
+                                <option value="5">500.000,00</option>
+                                <option value="6">600.000,00</option>
+                                <option value="7">700.000,00</option>
+                                <option value="8">800.000,00</option>
+                                <option value="9">900.000,00</option>
+                                <option value="10">1.000.000,00</option>
+                            </select><span class="span-required">Selecione um valor</span>
+                        </div>-->
+
+                        <!-- Campo: LMI cobertura Básica NEW | Alterado 21/11/2025--> 
+                        <div class="pergunta">
+                            <label for="embarque_lmi">Valor de LMI</label>
+                            <input 
+                                type="text"
+                                id="lmi_basico"
+                                name="ft_isagrupcobertura" required
+                                placeholder="Digite o LMI (R$)">
+                                
+                            <span class="span-required">Informe o valor</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+                    
+            <!-- QAR-3 -->
+            <div class="destacado-box">
+                <div class="qar3e4-container">
+                    <div>
+                        <h5 class="espaco-superior_QAR">Informações de Risco - Acondicionamento</h5>    
+                        <div class="embarque-container acondicionamento-container">
+                            <div class="linha-QAR31">
+                                <input type="hidden" name="ft_tipo_granel" value="1">
+                                <div class="pergunta">
+                                    <label>Granel</label>
+                                    <select id="acondicionamento_faixa_granel" class="money" name="ft_acondicionamento_granel" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="101">0%</option>
+                                        <option value="102">Até 10%</option>
+                                        <option value="103">Até 20%</option>
+                                        <option value="104">Até 30%</option>
+                                        <option value="105">Até 40%</option>
+                                        <option value="106">Até 50%</option>
+                                        <option value="107">Até 60%</option>
+                                        <option value="108">Até 70%</option>
+                                        <option value="109">Até 80%</option>
+                                        <option value="110">Até 90%</option>
+                                        <option value="111">100%</option>
+                                    </select><span class="span-required">Selecione uma faixa</span>
+                                </div>
+                                
+                                <input type="hidden" name="ft_tipo_fracionado" value="2">
+                                <div class="pergunta">
+                                    <label>Não Granel / Fracionado</label>
+                                    <select id="acondicionamento_faixa_fracionado" class="money" name="ft_acondicionamento_fracionado" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="201">0%</option>
+                                        <option value="202">Até 10%</option>
+                                        <option value="203">Até 20%</option>
+                                        <option value="204">Até 30%</option>
+                                        <option value="205">Até 40%</option>
+                                        <option value="206">Até 50%</option>
+                                        <option value="207">Até 60%</option>
+                                        <option value="208">Até 70%</option>
+                                        <option value="209">Até 80%</option>
+                                        <option value="210">Até 90%</option>
+                                        <option value="211">100%</option>
+                                    </select><span class="span-required">Selecione uma faixa</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- QAR-4 -->
+                    <div>
+                        <h5 class="espaco-superior_QAR">Perfil do Motorista Utilizado nas Operações</h5>    
+                        <div class="embarque-container perfil-motorista-container">
+                            <div class="linha-QAR41">
+                                <div class="pergunta">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="transportadora" name="perfil_motorista[]" value="1">
+                                        <label for="transportadora">Transportadora</label>
+                                    </div>
+                                    <input type="number" class="money" id="qtd_frota_transportadora" placeholder="Quantos Veículo na Frota?">
+                                    <span class="span-required">Informe a quantidade de veículos</span>
+                                </div>
+                                <div class="pergunta">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="agregado" name="perfil_motorista[]" value="2"> 
+                                        <label for="agregado">Agregado</label>
+                                    </div>
+                                    <input type="number" class="money" id="qtd_frota_agregado" placeholder="Quantos Veículo na Frota?">
+                                    <span class="span-required">Informe a quantidade de veículos</span> 
+                                </div>
+                                <div class="pergunta">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="frota_propria" name="perfil_motorista[]" value="3">
+                                        <label for="frota_propria">Frota Própria</label>
+                                    </div>
+                                    <input type="number" class="money" id="qtd_frota_propria" placeholder="Quantos Veículo na Frota?">
+                                    <span class="span-required">Informe a quantidade de veículos</span>
+                                </div>
+                                <div class="pergunta">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="autonomo" name="perfil_motorista[]" value="4">
+                                        <label for="autonomo">Autônomo</label>
+                                    </div>
+                                    <input type="number" class="money" id="qtd_frota_autonomo" placeholder="Quantos Veículo na Frota?">
+                                    <span class="span-required">Informe a quantidade de veículos</span>
+                                </div>
+                            </div>
+                            <span class="span-required" id="erro-perfil-motorista">Selecione ao menos um perfil e informe a quantidade</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- QAR-5 -->
+            <div class="destacado-box">
+            <h5 class="espaco-superior_QAR">Programa de Prevenção e Segurança - Certificações</h5>
+                <!-- QAR 5: PROGRAMA DE GERENCIAMENTO DE RISCO -->
+                <div class="linha-QAR51">
+                    <div class="pergunta">
+                        <label>Certificação MOPP Para Motoristas</label>
+                        <div>
+                            <label><input type="radio" name="cd_certificao_2" value="201"> Sim</label>
+                            <label><input type="radio" name="cd_certificao_2" value="202"> Não</label>
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <label>Programa de Gerenciamento de Risco</label>
+                        <div>
+                            <label><input type="radio" name="cd_certificao_5" value="501"> Sim</label>
+                            <label><input type="radio" name="cd_certificao_5" value="502"> Não</label>
+                        </div>
+                        <span class="span-required">Campos Obrigatórios</span>
+                    </div>
+                    <div class="pergunta">
+                        <label>Certificação ISO 14.0001</label>
+                        <div>
+                            <label><input type="radio" name="cd_certificao_1" value="101"> Sim</label>
+                            <label><input type="radio" name="cd_certificao_1" value="102"> Não</label>
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <label>Certificação SASSMAQ - ABIQUIM</label>
+                        <div>
+                            <label><input type="radio" name="cd_certificao_4" value="401"> Sim</label>
+                            <label><input type="radio" name="cd_certificao_4" value="402"> Não</label>
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <label>Certificação PRODIR - ASSOCIQUIM</label>
+                        <div>
+                            <label><input type="radio" name="cd_certificao_3" value="301"> Sim</label>
+                            <label><input type="radio" name="cd_certificao_3" value="302"> Não</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- QAR-6 -->
+            <div class="destacado-box tipo-seguro-container">
+                <h5 class="espaco-superior_QAR">Tipo de Seguro</h5>
+                <div class="linha-QAR61">
+                    <div>
+                        <label><input type="checkbox" name="cd_tipo_seguro_1" value="1"> Seguro Novo</label>
+                        <span class="span-required" id="erro-tipo-seguro">Selecione uma opção</span>
+                    </div>
+                    <label><input type="checkbox" name="cd_tipo_seguro_2" value="2"> Renovação</label>
+                    <label><input type="checkbox" name="cd_tipo_seguro_3" value="3"> Renovação com Sinistro</label>
+                    <label><input type="checkbox" name="cd_tipo_seguro_4" value="4"> Renovação Congênere</label>
+                    <label><input type="checkbox" name="cd_tipo_seguro_5" value="5"> Renovação Congênere com Sinistro</label>
+                </div>
+            </div>
+        
+            <!-- QAR-7 e QAR-8 -->
+            <div class="destacado-box">
+                <!-- Container principal para exibir lado a lado -->
+                <div class="qar7e8-container">
+
+                    <!-- QAR-7 -->
+                    <div class="pergunta-box">
+                        <h5 class="espaco-superior_QAR">Modais Utilizado</h5>    
+                        <div class="validacao-modais embarque-container">
+                            <div class="linha-QAR7">
+                                <div class="checkbox-container-qar8">
+                                    <input type="checkbox" id="mod_rodoviario" name="modais_utilizado[]" value="1" required>
+                                    <label for="mod_rodoviario">Rodoviário</label>
+                                    <span class="span-required" id="erro-modais">Selecione uma opção</span>
+                                </div>
+                                <div class="checkbox-container-qar8">
+                                    <input type="checkbox" id="mod_rodo_fluvial" name="modais_utilizado[]" value="2" required> 
+                                    <label for="mod_rodo_fluvial">Rodo-Fluvial</label>
+                                </div>
+                                <!-- <div class="checkbox-container-qar8">
+                                    <input type="checkbox" id="mod_cabotagem" name="modais_utilizado[]" value="3" required>
+                                    <label for="mod_cabotagem">Cabotagem</label>
+                                </div> -->
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <!-- QAR-8 -->
+                    <div class="pergunta-box">
+                        <h5 class="espaco-superior_QAR">Atividade</h5>
+                        <div class="linha-QAR81 validacao-atividade" id="QAR">
+                            <div class="checkbox-container-qar8">
+                                <input type="checkbox" id="atividade_embarcador" name="atividade[]" value="1" required>
+                                <label for="atividade_embarcador">Embarcador</label>
+                                <span class="span-required" id="erro-atividade">Selecione uma opção</span>
+                            </div>
+                            <div class="checkbox-container-qar8">
+                                <input type="checkbox" id="atividade_transportador" name="atividade[]" value="2" required>
+                                <label for="atividade_transportador">Transportador</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- QAR-9 -->
+            <div class="destacado-box linha-QAR91" id="qar9-box">
+                <h5 class="espaco-superior_QAR">Classificação dos Produtos - Classe</h5>
+                <form id="formQAR">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Classe</th>
+                                <th>% de Carga Transportada</th>
+                            </tr>
+                        </thead>
+                        <tbody id="checkboxGroup">
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="classe_1">
+                                        Classe 1 - Explosivos
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" class="moneyclass" name="cd_classeproduto_1" min="0" max="100" placeholder="0,00%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="classe_2">
+                                        Classe 2 - Gases
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" class="moneyclass" name="cd_classeproduto_2" min="0" max="100" placeholder="0,00%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="classe_3">
+                                        Classe 3 - Líquidos Inflamáveis
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" class="moneyclass" name="cd_classeproduto_3" min="0" max="100" placeholder="0,00%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="classe_4">
+                                        Classe 4 - Sólidos Inflamáveis Substâncias Sujeitas A Combustão Espontânea Substâncias Que Em Contato Com Água Emitem Gases Inflamáveis
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" class="moneyclass" name="cd_classeproduto_4" min="0" max="100" placeholder="0,00%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="classe_5">
+                                        Classe 5 - Substâncias Oxidantes e Peróxidos Orgânicos
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" class="moneyclass" name="cd_classeproduto_5" min="0" max="100" placeholder="0,00%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="classe_6">
+                                        Classe 6 - Substâncias Tóxicas e Infectantes
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" class="moneyclass" name="cd_classeproduto_6" min="0" max="100" placeholder="0,00%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="classe_7">
+                                        Classe 7 - Materiais Radioativos
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" class="moneyclass" name="cd_classeproduto_7" min="0" max="100" placeholder="0,00%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="classe_8">
+                                        Classe 8 - Substâncias Corrosivas
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" class="moneyclass" name="cd_classeproduto_8" min="0" max="100" placeholder="0,00%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="classe_9">
+                                        Classe 9 - Substâncias e Artigos Perigosos Diversos
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" class="moneyclass" name="cd_classeproduto_9" min="0" max="100" placeholder="0,00%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="classe_10">
+                                        Substâncias Não Classificadas Acima com Potencial de Risco À Saúde ou Meio Ambiente
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" class="moneyclass" name="cd_classeproduto_10" min="0" max="100" placeholder="0,00%">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span class="span-required" id="erro-classe">Selecione a opção desejada</span>
+                </form>
+            </div>
+
+            <!-- QAR-10 -->
+            <div class="destacado-box linha-QAR10" id="qar10-box">
+                <h5 class="espaco-superior_QAR">Selecione o Estado em que o segurado realiza o transporte</h5>
+
+                <!--
+                <div class="regiao-bloco">
+                    <h6 class="titulo-regiao">Região Norte</h6>
+                    <div class="estados-container">
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="1"> AC</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="2"> AP</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="3"> AM</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="4"> PA</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="5"> RO</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="6"> RR</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="7"> TO</div>
+                    </div>
+                </div>
+
+                <div class="regiao-bloco">
+                    <h6 class="titulo-regiao">Região Nordeste</h6>
+                    <div class="estados-container">
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="8"> AL</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="9"> BA</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="10"> CE</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="11"> MA</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="12"> PB</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="13"> PE</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="14"> PI</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="15"> RN</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="16"> SE</div>
+                    </div>
+                </div>
+
+                <div class="regiao-bloco">
+                    <h6 class="titulo-regiao">Região Centro-Oeste</h6>
+                    <div class="estados-container">
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="17"> DF</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="18"> GO</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="19"> MT</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="20"> MS</div>
+                    </div>
+                </div>
+                -->
+
+                <div class="regiao-bloco">
+                    <h6 class="titulo-regiao">Região Sudeste</h6>
+                    <div class="estados-container">
+                        <!--<div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="21"> ES</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="22"> MG</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="23"> RJ</div>-->
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="24"> SP</div>
+                    </div>
+                </div>
+
+                <div class="regiao-bloco">
+                    <h6 class="titulo-regiao">Região Sul</h6>
+                    <div class="estados-container">
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="25"> PR</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="26"> RS</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="27"> SC</div>
+                    </div>
+                </div>
+                <span id="erro-estado" class="span-required">* Este campo é obrigatório</span>
+            </div>
+            
+        <hr>
+        
+        <!-- INICIO DO JSON NA TELA - CONFORME VAI PREENCHENDO AS INFORMAÇÕES JÁ VAI MOSTRANDO AS RELATIVIDADES É APENAS PARA IR CONSULTANDO AS MELORIAS DEPOIS TEM QUE FECHAR 
+        <div style="margin-top: 20px;">
+            <h3>JSON da Cotação (Relatividades)</h3>
+            <pre id="resposta-json" style="background: #f5f5f5; padding: 10px; border: 1px solid #ccc; max-height: 400px; overflow: auto;"></pre>
+        </div> -->
+         <!--FIM DO JSON ONLINE PARA FECHAR  --> 
+         
+        
+        <!-- BOTÃO GRAVAR COTAÇÃO -->
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <button type="button" class="btn-adicionar" id="btnCalcular">Gravar Cotação</button>
+            
+            <span id="processando" style="display: none;">
+                <span class="loading-spinner"></span> Processando...
+            </span>
+        
+            <div id="mensagemCotacao" style="display: none; font-weight: normal; color: green;"></div>
+        </div>
+        <br><br> <!-- Pula Linha -->
+
+    <!-- Subtítulo (inicialmente escondido) -->
+    <div id="tabela-cotacoes-subtitulo" style="display: none;">Resumo das Coberturas</div>
+
+    <!-- Tabela (inicialmente escondida) -->
+    <table border="1" id="tabela-cotacoes" style="display: none;">
+        <thead>
+            <tr>
+                <th>Cotação</th>
+                <th>Versão</th>
+                <th>Coberturas</th>
+                <th>Descrição da Cobertura</th>
+                <th>Prêmio de Risco</th>
+                <th>Desconto/Agravo</th>
+                <th>Prêmio de Risco Ajustado</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
+    <!-- Nota (inicialmente escondida) -->
+    <div id="tabela-cotacoes-nota" style="display: none;">Nota: Os Valores Acima Não estão considerando os carregamentos, DA, DO, Margem, etc. </div>
+
+    <script>
+        // Mostra subtítulo, tabela e nota ao clicar no botão
+        document.getElementById("btnCalcular").addEventListener("click", function() {
+            document.getElementById("tabela-cotacoes-subtitulo").style.display = "block";
+            document.getElementById("tabela-cotacoes").style.display = "table"; // tabela precisa ser 'table'
+            document.getElementById("tabela-cotacoes-nota").style.display = "block";
+        });
+    </script>
+         
+        <!-- BOTÃO ATUALIZA COTAÇÃO -->
+        <br><br> <!-- Pula Linha -->
+        <button type="button"
+                class="btn-adicionar"
+                id="btnAtualizarCotacao"
+                style="display:none;"
+                >Atualizar Cotação
+        </button>
+  
+    </form> 
+
+        <!-- MENSAGEM DE ERRO PARA PREENCHIMENTO OBRIGATÓRIO DOS CAMPOS -->
+        <div id="mensagemErroTopo" style="
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #df6259;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            z-index: 1000;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        "> Por favor, preencha todos os campos obrigatórios.
+        </div>
+    
+        <!-- MENSAGEM DE GRAVAÇÃO DE COTAÇÃO COM SUCESSO! -->
+        <div id="mensagemFlutuante" style="
+                display: none;
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 12px 24px;
+                border-radius: 5px;
+                z-index: 1000;
+                font-weight: bold;
+                box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            ">
+        </div>
+
+    </div>
+
+<!-- Script que gera a tabela -->
+<script src="{{ url_for('static', filename='js/tabela_preco_final.js') }}"></script>    
+<script src="{{ url_for('static', filename='js/api_cnpj.js') }}"></script>
+<script src="{{ url_for('static', filename='js/grupo_empresa.js') }}"></script>
+<script src="{{ url_for('static', filename='js/opcao_select_checkbox.js') }}"></script>
+<script src="{{ url_for('static', filename='js/consulta_cotacao.js') }}"></script>
+<script src="{{ url_for('static', filename='js/canal_venda.js') }}"></script>
+<script src="{{ url_for('static', filename='js/calcular_precificacao.js') }}"></script>
+<script src="{{ url_for('static', filename='js/cobertura.js') }}"></script>
+<script src="{{ url_for('static', filename='js/embarque_qtd.js') }}"></script>
+<script src="{{ url_for('static', filename='js/embarque_lmi.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jsonOline.js') }}"></script>
+
+<!-- <script src="{{ url_for('static', filename='js/campo_obrigatorio.js') }}"></script> -->
+
+
+
+</body>
+</html>
