@@ -1,38 +1,47 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const campo = document.getElementById("ft_qtde_embarque");
-    if (!campo) return;
+    const perigoso = document.getElementById("ft_qtde_embarque_perigoso");
+    const comum = document.getElementById("ft_qtde_embarque_prod_comum");
 
-    campo.addEventListener("input", function () {
+    if (!perigoso || !comum) return;
 
-        let valor = this.value.replace(/\D/g, "");
+    function formatar(valor) {
+        return valor
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
 
-        if (!valor) {
-            this.value = "";
-            return;
-        }
+    function limparNumero(valor) {
+        return parseInt((valor || "").replace(/\./g, ""), 10) || 0;
+    }
 
-        valor = parseInt(valor, 10);
+    function validarCampo(campo) {
 
+        let valor = limparNumero(campo.value);
+
+        // trava individual
         if (valor > 2500) {
-            alert("O máximo permitido é 2.500 embarques.");
             valor = 2500;
         }
 
-        this.value = valor
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    });
+        // aplica formatação
+        campo.value = valor ? formatar(valor) : "";
+    }
+
+    perigoso.addEventListener("input", () => validarCampo(perigoso));
+    comum.addEventListener("input", () => validarCampo(comum));
 
 });
 
 // ==============================
 // FUNÇÃO PARA USAR NO BACKEND
 // ==============================
-function getQtdEmbarques() {
-    const campo = document.getElementById("ft_qtde_embarque");
-    return parseInt(
-        (campo.value || "").replace(/\./g, ""),
-        10
-    ) || 0;
+function getQtdEmbarquesPerigoso() {
+    const campo = document.getElementById("ft_qtde_embarque_perigoso");
+    return parseInt((campo.value || "").replace(/\./g, ""), 10) || 0;
+}
+
+function getQtdEmbarquesComum() {
+    const campo = document.getElementById("ft_qtde_embarque_prod_comum");
+    return parseInt((campo.value || "").replace(/\./g, ""), 10) || 0;
 }

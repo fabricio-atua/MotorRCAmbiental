@@ -372,37 +372,47 @@ hr {
 
 /********************************************************************************************/
 /*Formatação: QAR 2:  EMBARQUE*/
+/********************************************************************************************/
+/* Formatação: QAR 2: EMBARQUE */
 .embarque-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    white-space: nowrap; /* Impede que o texto quebre para a próxima linha */
-    max-width: 900px;
+    max-width: 100%;
 }
-.linha-QAR21, .linha-QAR22 {
+
+/* Grid mais flexível */
+.linha-QAR21 {
     display: grid;
-    grid-template-columns: 35% 20% 20%; /* Ajuste manual das larguras */
-    gap: 70px; /* Espaço entre as colunas */
+    grid-template-columns: auto auto 1fr;
+    gap: 15px;
+    align-items: end;
 }
+
+/* Ajuste dos blocos */
+.pergunta {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Radios (Sim / Não) */
 .pergunta div {
     display: flex;
-    align-items: center; /* Mantém os itens alinhados verticalmente */
-    gap: 10px; /* Reduz o espaço entre os elementos */
+    align-items: center;
+    gap: 10px;
 }
-.pergunta input[type="radio"] {
-    margin: 0 3px 0 0; /* Reduz espaço à direita da bolinha */
-}
+
+/* Inputs */
 .pergunta input {
-    padding: 10px;
+    padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
     width: 100%;
 }
-/* Ajusta os textos "Sim" e "Não" */
+
+/* Labels */
 .pergunta label {
-    display: flex;
-    align-items: center;
-    font-size: 12px;
+    font-size: 13px;
 }
 /********************************************************************************************/
 /*Formatação: QAR 3:  ACONDICIONAMENTO (Na mesma linha do QAR4*/
@@ -854,7 +864,7 @@ input[type="file"] {
 
 
 /* ================================================================
-   TABELA DE VAALORES DAS COTAÇÕES QUE TEM DECONTO E AGRAVO
+   TABELA DE VALORES DAS COTAÇÕES QUE TEM DECONTO E AGRAVO
 =================================================================== */
 #tabela-cotacoes {
     width: 100%;
@@ -959,5 +969,3 @@ input[type="file"] {
     color: #f60404;
     margin-top: 6px;
 }
-
-

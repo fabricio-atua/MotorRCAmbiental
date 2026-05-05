@@ -182,43 +182,88 @@
                 <div id="adicionaisContainer" class="cobertura-item espaco-superior" style="display: none;">
                     <label><strong>Selecione as coberturas adicionais:</strong></label>
                     <ul class="lista-adicionais">
+
                         <li class="item-adicional">
                             <label>
                                 <input type="checkbox" name="adicional" value="CA1" data-nome="Transporte Terrestre Rodoviário, Viagem Na Rodovia Com Percurso Complementar Fluvial">
                                 Transporte Terrestre Rodoviário, Viagem Na Rodovia Com Percurso Complementar Fluvial
                             </label>
-                            <input type="text" id="ft_isagrupcobertura" name="ft_isagrupcobertura" class="lmi-input lmi-adicional" maxlength="12" placeholder="LMI (R$)" style="display:none;">
+                            <input 
+                                type="text"
+                                name="ft_isagrupcobertura"
+                                class="lmi-input lmi-adicional"
+                                maxlength="12"
+                                placeholder="Mesmo LMI da básica"
+                                readonly
+                                style="display:none;"
+                            >
                         </li>
+
                         <li class="item-adicional">
                             <label>
                                 <input type="checkbox" name="adicional" value="CA2" data-nome="Transporte Terrestre Rodoviário, Danos Morais">
                                 Transporte Terrestre Rodoviário, Danos Morais
                             </label>
-                            <input type="text" id="ft_isagrupcobertura" name="ft_isagrupcobertura" class="lmi-input lmi-adicional" maxlength="12"placeholder="LMI (R$)" style="display:none;">
+                            <input 
+                                type="text"
+                                name="ft_isagrupcobertura"
+                                class="lmi-input lmi-adicional"
+                                maxlength="12"
+                                placeholder="Mesmo LMI da básica"
+                                readonly
+                                style="display:none;"
+                            >
                         </li>
+
                         <li class="item-adicional">
                             <label>
                                 <input type="checkbox" name="adicional" value="CA3" data-nome="Transporte Terrestre Gerenciamento De Crise">
                                 Transporte Terrestre Gerenciamento De Crise
                             </label>
-                            <input type="text" id="ft_isagrupcobertura" name="ft_isagrupcobertura" class="lmi-input lmi-adicional" maxlength="12" placeholder="LMI (R$)" style="display:none;">
+                            <input 
+                                type="text"
+                                name="ft_isagrupcobertura"
+                                class="lmi-input lmi-adicional"
+                                maxlength="12"
+                                placeholder="Mesmo LMI da básica"
+                                readonly
+                                style="display:none;"
+                            >
                         </li>
+
                         <li class="item-adicional">
                             <label>
                                 <input type="checkbox" name="adicional" value="CA4" data-nome="Transporte Terrestre Rodoviário, Defesa Do Segurado Em Decorrência De Penalidades Administrativas">
                                 Transporte Terrestre Rodoviário, Defesa Do Segurado Em Decorrência De Penalidades Administrativas
                             </label>
-                            <input type="text" id="ft_isagrupcobertura" name="ft_isagrupcobertura" class="lmi-input lmi-adicional" maxlength="12" placeholder="LMI (R$)" style="display:none;">
+                            <input 
+                                type="text"
+                                name="ft_isagrupcobertura"
+                                class="lmi-input lmi-adicional"
+                                maxlength="12"
+                                placeholder="Mesmo LMI da básica"
+                                readonly
+                                style="display:none;"
+                            >
                         </li>
+
                         <li class="item-adicional">
                             <label>
                                 <input type="checkbox" name="adicional" value="CA5" data-nome="Transporte Terrestre Vazamento De Produtos Acondicionados Em Veículos Transportadores">
                                 Transporte Terrestre Vazamento De Produtos Acondicionados Em Veículos Transportadores
                             </label>
-                            <input type="text" id="ft_isagrupcobertura" name="ft_isagrupcobertura" class="lmi-input lmi-adicional" maxlength="12" placeholder="LMI (R$)" style="display:none;">
+                            <input 
+                                type="text"
+                                name="ft_isagrupcobertura"
+                                class="lmi-input lmi-adicional"
+                                maxlength="12"
+                                placeholder="Mesmo LMI da Básica"
+                                readonly
+                                style="display:none;"
+                            >
                         </li>
+
                     </ul>
-                </div>
                 </div>
 
                 <h3 class="espaco-superior">CANAL DE VENDA</h3>
@@ -281,7 +326,7 @@
                                     <input type="radio" name="ft_prodperig" value="1" required> Sim
                                 </label>
                                 <label>
-                                    <input type="radio" name="ft_prodperig" value="2" required> Não
+                                    <input type="radio" name="ft_prodperig" value="2" required checked> Não
                                 </label>
                             </div>
                             <span class="span-required">Selecione uma opção</span>
@@ -306,7 +351,7 @@
                             </select><span class="span-required">Selecione uma faixa</span>
                         </div>-->
                         
-                        <!-- Campo: Nº Mensal de Embarques NEW Alterado 21/11/2025-->
+                        <!-- Campo: Nº Mensal de Embarques NEW Alterado 21/11/2025
                         <div class="pergunta">
                             <label for="embarques_qtd">Nº Mensal de Embarques</label>
                             <input 
@@ -316,7 +361,44 @@
                                 placeholder="Digite a quantidade"
                             >
                             <span class="span-required">Informe o número de embarques (máx. 2.500)</span>
+                        </div>-->
+
+
+                        <!-- Campo: Nº Mensal de Embarques -->
+                        <div class="pergunta">
+                            <label>Nº Mensal de Embarques</label>
+
+                            <div style="display: flex; gap: 10px;">
+                                
+                                <!-- Produtos Perigosos -->
+                                <div style="flex: 1;">
+                                    <label for="ft_qtde_embarque_perigoso">Produtos Perigosos</label>
+                                    <input 
+                                        type="text" 
+                                        id="ft_qtde_embarque_perigoso" 
+                                        name="ft_qtde_embarque_perigoso"
+                                        placeholder="Qtd"
+                                        data-cd-carga="1"
+                                    >
+                                </div>
+
+                                <!-- Carga Comum -->
+                                <div style="flex: 1;">
+                                    <label for="ft_qtde_embarque_prod_comum">Carga Comum</label>
+                                    <input 
+                                        type="text" 
+                                        id="ft_qtde_embarque_prod_comum" 
+                                        name="ft_qtde_embarque_prod_comum"
+                                        placeholder="Qtd"
+                                        data-cd-carga="2"
+                                    >
+                                </div>
+
+                            </div>
+
+                            <span class="span-required">Informe a quantidade de embarques</span>
                         </div>
+
 
                         <!-- Campo: LMI cobertura Básica OLD
                         <div class="pergunta">
@@ -682,7 +764,6 @@
             <div class="destacado-box linha-QAR10" id="qar10-box">
                 <h5 class="espaco-superior_QAR">Selecione o Estado em que o segurado realiza o transporte</h5>
 
-                <!--
                 <div class="regiao-bloco">
                     <h6 class="titulo-regiao">Região Norte</h6>
                     <div class="estados-container">
@@ -720,14 +801,13 @@
                         <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="20"> MS</div>
                     </div>
                 </div>
-                -->
-
+                
                 <div class="regiao-bloco">
                     <h6 class="titulo-regiao">Região Sudeste</h6>
                     <div class="estados-container">
-                        <!--<div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="21"> ES</div>
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="21"> ES</div>
                         <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="22"> MG</div>
-                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="23"> RJ</div>-->
+                        <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="23"> RJ</div>
                         <div class="estado-item"><input type="checkbox" name="uf_transp[]" required value="24"> SP</div>
                     </div>
                 </div>

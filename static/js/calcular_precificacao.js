@@ -169,8 +169,11 @@ document.addEventListener("DOMContentLoaded", () => {
             formData.append("ft_cobertura", coberturaSelect);
             formData.append("ft_prodperig", document.querySelector("input[name='ft_prodperig']:checked")?.value || "");
             
-            const qtdeEmbarque = document.getElementById("ft_qtde_embarque").value.replace(/\./g, "");
-            formData.append("ft_qtde_embarque", qtdeEmbarque);
+            const qtdPerigoso = document.getElementById("ft_qtde_embarque_perigoso")?.value.replace(/\./g, "") || "0";
+            const qtdComum = document.getElementById("ft_qtde_embarque_prod_comum")?.value.replace(/\./g, "") || "0";
+
+            formData.append("ft_qtde_embarque_perigoso", qtdPerigoso);
+            formData.append("ft_qtde_embarque_prod_comum", qtdComum);
             
             const lmiBasico = getLmiBasico(); // chama a função que limpa e converte
             formData.append("ft_isagrupcobertura", lmiBasico ?? "");

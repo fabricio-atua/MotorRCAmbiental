@@ -317,7 +317,6 @@ def get_cobertura_exibir(codigo):
     return jsonify(resultado)
 
 
-
 ################################################################################################################################################################################
 ################################################################################################################################################################################
 # ROTA PARA BUSCAR AS RELATIVIDADES NO MYSQL
@@ -470,30 +469,112 @@ def calcular_precificacao():
     # ============================================================
     # QTDE EMBARQUE - buscando fator diretamente via BETWEEN incluso dia 21/11/25
     # ============================================================
-    ft_qtde_embarque = request.form.get("ft_qtde_embarque")
-    qtde_embarque = None
-    if ft_qtde_embarque and cobertura_id:
-        ft_qtde_embarque = float(ft_qtde_embarque)
-        conn = get_mysql_connection()
-        cursor = conn.cursor(dictionary=True)
+    #ft_qtde_embarque = request.form.get("ft_qtde_embarque")
+    #qtde_embarque = None
+    #if ft_qtde_embarque and cobertura_id:
+    #    ft_qtde_embarque = float(ft_qtde_embarque)
+    #    conn = get_mysql_connection()
+    #    cursor = conn.cursor(dictionary=True)
         
         # Monta a coluna dinamicamente, ex: FT_CAG1
-        coluna_fator = cobertura_id  # cobertura_id já está no formato FT_CAG1
+    #    coluna_fator = cobertura_id  # cobertura_id já está no formato FT_CAG1
 
         # NOVA QUERY trazendo DS_QTDEMBARQUE
-        query = f"""
-            SELECT `{coluna_fator}`, DS_QTDEMBARQUE
-            FROM FT_QTDE_EMBARQUE
-            WHERE %s BETWEEN CD_QTDEMBARQUE_INI AND CD_QTDEMBARQUE_FIM
-            LIMIT 1
-        """
-        cursor.execute(query, (ft_qtde_embarque,))
-        resultado = cursor.fetchone()
-        if resultado:
-            qtde_embarque = {
-                "DS_QTDEMBARQUE": resultado["DS_QTDEMBARQUE"],
-                cobertura_id: resultado[coluna_fator]
-            }
+    #   query = f"""
+    #       SELECT `{coluna_fator}`, DS_QTDEMBARQUE
+    #        FROM FT_QTDE_EMBARQUE
+    #        WHERE %s BETWEEN CD_QTDEMBARQUE_INI AND CD_QTDEMBARQUE_FIM
+    #        LIMIT 1
+    #    """
+    #    cursor.execute(query, (ft_qtde_embarque,))
+    #    resultado = cursor.fetchone()
+    #    if resultado:
+    #        qtde_embarque = {
+    #            "DS_QTDEMBARQUE": resultado["DS_QTDEMBARQUE"],
+    #            cobertura_id: resultado[coluna_fator]
+    #        }
+
+    #    cursor.close()
+    #    conn.close()
+
+    # ============================================================
+    # QTDE EMBARQUE - NOVO (COM CD_CARGA + MÉDIA PONDERADA) Adicionado no dia 21/11/25 abertura de quantidade de embarque perigoso e comum e cálculo de média ponderada dos fatores conforme quantidade de cada um
+    # ============================================================
+    qtd_perigoso = float(request.form.get("ft_qtde_embarque_perigoso") or 0)
+    qtd_comum = float(request.form.get("ft_qtde_embarque_prod_comum") or 0)
+
+    qtde_embarque = {}
+    fator_final = 1
+
+    if cobertura_id and (qtd_perigoso > 0 or qtd_comum > 0):
+
+        conn = get_mysql_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        coluna_fator = cobertura_id
+
+        soma_ponderada = 0
+        soma_pesos = 0
+
+        # ----------------------------
+        # PERIGOSO (CD_CARGA = 1)
+        # ----------------------------
+        if qtd_perigoso > 0:
+            query = f"""
+                SELECT `{coluna_fator}`, DS_QTDEMBARQUE
+                FROM FT_QTDE_EMBARQUE
+                WHERE %s BETWEEN CD_QTDEMBARQUE_INI AND CD_QTDEMBARQUE_FIM
+                AND CD_CARGA = 1
+                LIMIT 1
+            """
+            cursor.execute(query, (qtd_perigoso,))
+            res = cursor.fetchone()
+
+            if res:
+                fator = float(res[coluna_fator])
+
+                qtde_embarque["perigoso"] = {
+                    "qtd": qtd_perigoso,
+                    "DS_QTDEMBARQUE": res["DS_QTDEMBARQUE"],
+                    "fator": fator
+                }
+
+                soma_ponderada += fator * qtd_perigoso
+                soma_pesos += qtd_perigoso
+
+        # ----------------------------
+        # COMUM (CD_CARGA = 2)
+        # ----------------------------
+        if qtd_comum > 0:
+            query = f"""
+                SELECT `{coluna_fator}`, DS_QTDEMBARQUE
+                FROM FT_QTDE_EMBARQUE
+                WHERE %s BETWEEN CD_QTDEMBARQUE_INI AND CD_QTDEMBARQUE_FIM
+                AND CD_CARGA = 2
+                LIMIT 1
+            """
+            cursor.execute(query, (qtd_comum,))
+            res = cursor.fetchone()
+
+            if res:
+                fator = float(res[coluna_fator])
+
+                qtde_embarque["comum"] = {
+                    "qtd": qtd_comum,
+                    "DS_QTDEMBARQUE": res["DS_QTDEMBARQUE"],
+                    "fator": fator
+                }
+
+                soma_ponderada += fator * qtd_comum
+                soma_pesos += qtd_comum
+
+        # ----------------------------
+        # FATOR FINAL (ponderado)
+        # ----------------------------
+        if soma_pesos > 0:
+            fator_final = soma_ponderada / soma_pesos
+
+        qtde_embarque["fator_medio"] = round(fator_final, 6)
 
         cursor.close()
         conn.close()
@@ -551,18 +632,73 @@ def calcular_precificacao():
     ft_acondic_fracional = request.form.get("ft_acondicionamento_fracionado")
     ft_acondicionamento_fracionado = buscar_fator("FT_ACONDICIONAMENTO", "CD_FAIXA_ACONDICIONAMENTO", ft_acondic_fracional, cobertura_id)
     
-    #PERFIL DO MOTORISTA
+    #PERFIL DO MOTORISTA Fechado, este item estava multiplicando todas as relatividades o que estava agravando o preço - 29/04/2026
+    #qtd_frota_transportadora = request.form.get("qtd_frota_transportadora")
+    #qtd_frota_agregado = request.form.get("qtd_frota_agregado")
+    #qtd_frota_propria = request.form.get("qtd_frota_propria")
+    #qtd_frota_autonomo = request.form.get("qtd_frota_autonomo")
+    #perfil_motorista = request.form.getlist("perfil_motorista[]")
+    
+    #relatividades_motorista = []
+    #for codigo in perfil_motorista:
+    #    resultado = buscar_fator("FT_PERFMOTORISTA", "CD_PERFMOTORISTA", codigo, cobertura_id)
+    #    if resultado:
+    #        relatividades_motorista.append(resultado)
+
+
+    ############################################################################################################
+    # PERFIL DO MOTORISTA - Novo Cálculo com média ponderada considerando a quantidade de frota por cada tipo de motorista 29/04/2026
     qtd_frota_transportadora = request.form.get("qtd_frota_transportadora")
     qtd_frota_agregado = request.form.get("qtd_frota_agregado")
     qtd_frota_propria = request.form.get("qtd_frota_propria")
     qtd_frota_autonomo = request.form.get("qtd_frota_autonomo")
+
     perfil_motorista = request.form.getlist("perfil_motorista[]")
-    
+
     relatividades_motorista = []
+
+    # NOVO: mapa de pesos
+    mapa_pesos = {
+        "1": float(qtd_frota_transportadora or 0),
+        "2": float(qtd_frota_agregado or 0),
+        "3": float(qtd_frota_propria or 0),
+        "4": float(qtd_frota_autonomo or 0),
+    }
+
+    soma_ponderada = 0
+    soma_pesos = 0
+
     for codigo in perfil_motorista:
         resultado = buscar_fator("FT_PERFMOTORISTA", "CD_PERFMOTORISTA", codigo, cobertura_id)
+        
         if resultado:
-            relatividades_motorista.append(resultado)
+            relatividades_motorista.append(resultado)  # mantém estrutura original
+
+            # NOVO: cálculo ponderado
+            if cobertura_id in resultado:
+                fator = float(resultado[cobertura_id])
+                peso = mapa_pesos.get(codigo, 0)
+
+                soma_ponderada += fator * peso
+                soma_pesos += peso
+
+    # NOVO: fator médio ponderado
+    if soma_pesos > 0:
+        fator_motorista_medio = soma_ponderada / soma_pesos
+    else:
+        fator_motorista_medio = 1.0
+
+    # NÃO altera estrutura, só adiciona no final
+    perfil_motorista_resultado = {
+        "quantidade_frota": {
+            "transportadora": qtd_frota_transportadora,
+            "agregado": qtd_frota_agregado,
+            "frota_propria": qtd_frota_propria,
+            "autonomo": qtd_frota_autonomo
+        },
+        "relatividades": relatividades_motorista,
+        "fator_medio": round(fator_motorista_medio, 6)
+    }
 
     #CERTIFICAÇÕES 
     cd_certificao_1 = request.form.get("cd_certificao_1")
@@ -600,26 +736,91 @@ def calcular_precificacao():
     atividade = request.form.getlist("atividade[]")
     ft_atividade = buscar_fator("FT_ATIVIDADE", "CD_ATIVIDADE", atividade, cobertura_id)
 
-    # CLASSIFICAÇÃO DOS PRODUTOS - CLASSE
+    # CLASSIFICAÇÃO DOS PRODUTOS - CLASSE fechada, este item estava munltiplicando todas as relatividades o que estava agravando o preço - 29/04/2026
+    #classes = json.loads(request.form.get("classes", "{}"))
+    #porcentagens = json.loads(request.form.get("porcentagens", "{}"))
+
+    #ft_classe = {}
+    #for codigo in classes:
+    #    porcentagem = porcentagens.get(codigo, "0")
+    #    info = buscar_fator("FT_CLASSEPRODUTO", "CD_CLASSEPRODUTO", codigo, cobertura_id)
+    #    ft_classe[f"classe_{codigo}"] = {
+    #    "relatividade": info,
+    #    f"porcentagem_classe_{codigo}": porcentagem
+    #}
+   
+    # CLASSIFICAÇÃO DOS PRODUTOS - CLASSE Novo Cálculo com a média ponderada considerando o % da Classe transportada 29/04/2026
     classes = json.loads(request.form.get("classes", "{}"))
     porcentagens = json.loads(request.form.get("porcentagens", "{}"))
 
     ft_classe = {}
+
+    soma_ponderada = 0
+    soma_pesos = 0
+
     for codigo in classes:
-        porcentagem = porcentagens.get(codigo, "0")
+        porcentagem = float(porcentagens.get(codigo, "0"))
+
         info = buscar_fator("FT_CLASSEPRODUTO", "CD_CLASSEPRODUTO", codigo, cobertura_id)
+
+        # mantém estrutura original (NÃO ALTERA)
         ft_classe[f"classe_{codigo}"] = {
-        "relatividade": info,
-        f"porcentagem_classe_{codigo}": porcentagem
-    }
-   
-   # UF 
+            "relatividade": info,
+            f"porcentagem_classe_{codigo}": porcentagem
+        }
+
+        # 👉 NOVO: cálculo ponderado
+        if info and cobertura_id in info:
+            fator = float(info[cobertura_id])
+            peso = porcentagem / 100
+
+            soma_ponderada += fator * peso
+            soma_pesos += peso
+
+    # 👉 NOVO: fator médio ponderado
+    if soma_pesos > 0:
+        fator_classe_medio = soma_ponderada / soma_pesos
+    else:
+        fator_classe_medio = 1.0
+
+    # 👉 NOVO: adiciona no mesmo objeto (sem quebrar nada)
+    ft_classe["fator_medio"] = round(fator_classe_medio, 6)
+
+
+
+   # UF estava multiplicando todas as relatividades acorrendo agravo no preço
+    #ufs = json.loads(request.form.get("ufs", "[]"))
+    #ft_uf = {}
+
+    #for codigo in ufs:
+    #    info = buscar_fator("FT_UF", "CD_UF", codigo, cobertura_id)
+    #    ft_uf[f"uf_{codigo}"] = info
+
+   # Ajuste realizado dia 29/04/26 Faz a Média Simples das relatividades (Não dá para fazer média ponderada porque não temos o peso de cada UF)
     ufs = json.loads(request.form.get("ufs", "[]"))
-    ft_uf = {}
+
+    fatores_uf = []
+    ft_uf = {}  # mantém o mesmo nome
 
     for codigo in ufs:
         info = buscar_fator("FT_UF", "CD_UF", codigo, cobertura_id)
-        ft_uf[f"uf_{codigo}"] = info
+
+        if info and cobertura_id in info:
+            fator = float(info[cobertura_id])
+            fatores_uf.append(fator)
+
+            # mantém estrutura antiga (caso algo use isso)
+            ft_uf[f"uf_{codigo}"] = info
+
+    # calcula média simples
+    if fatores_uf:
+        fator_uf_medio = sum(fatores_uf) / len(fatores_uf)
+    else:
+        fator_uf_medio = 1.0
+
+    # adiciona o fator consolidado SEM remover os antigos
+    ft_uf["fator_medio"] = round(fator_uf_medio, 6)
+
 
     nova_cotacao = gerar_nova_cotacao()
 
@@ -653,7 +854,7 @@ def calcular_precificacao():
         "prodperig": prodperig,
 
         "qtde_embarque": qtde_embarque or {},          # garante dicionário
-       "isagrupcobertura": isagrupcobertura or {},    # garante dicionário
+        "isagrupcobertura": isagrupcobertura or {},    # garante dicionário
 
         "ft_acondicionamento_granel": ft_acondicionamento_granel,
         "ft_acondicionamento_fracionado": ft_acondicionamento_fracionado,
@@ -666,16 +867,19 @@ def calcular_precificacao():
         "corretor": corretor,
         "ft_carregamento": carregamentos, 
         
-        "perfil_motorista": {
-            "quantidade_frota": {
-                "transportadora": qtd_frota_transportadora,
-                "agregado": qtd_frota_agregado,
-                "frota_propria": qtd_frota_propria,
-                "autonomo": qtd_frota_autonomo
-            },
-            
-            "relatividades": relatividades_motorista  # lista de dicionários
-        }
+        #"perfil_motorista": {
+        #    "quantidade_frota": {
+        #        "transportadora": qtd_frota_transportadora,
+        #        "agregado": qtd_frota_agregado,
+        #        "frota_propria": qtd_frota_propria,
+        #        "autonomo": qtd_frota_autonomo
+        #    },
+        
+        #    "relatividades": relatividades_motorista  # lista de dicionários
+        #}
+
+        "perfil_motorista": perfil_motorista_resultado,
+        
     }
 
     ################################################################################################################
@@ -752,11 +956,31 @@ def calcular_precificacao():
         "Embarque_1", "Produto Perigoso?", bloco.get("CD_PRODPERIG"), bloco.get(cobertura_id),
         valor_corrente_premio, linhas, numero_cotacao=numero_cotacao, versao_cotacao=versao, data_criacao_cotacao=data_criacao)
             
-    # EMBARQUE: QUANTIDADE DE EMBARQUE
+    # EMBARQUE: QUANTIDADE DE EMBARQUE fechado dia 04/05/2026, 
+    #bloco = resposta_json.get("qtde_embarque", {})
+    #valor_corrente_premio, linhas = adicionar_linha(
+    #    "Embarque_2", "Quantidade de Embarque", bloco.get("DS_QTDEMBARQUE"), bloco.get(cobertura_id),
+    #    valor_corrente_premio, linhas, numero_cotacao=numero_cotacao, versao_cotacao=versao, data_criacao_cotacao=data_criacao)
+
+    # EMBARQUE: QUANTIDADE DE EMBARQUE (média ponderada por tipo de carga)
     bloco = resposta_json.get("qtde_embarque", {})
+
+    qtd_perigoso = bloco.get("perigoso", {}).get("qtd", 0)
+    qtd_comum = bloco.get("comum", {}).get("qtd", 0)
+
+    descricao = f"Perigoso: {int(qtd_perigoso)} | Comum: {int(qtd_comum)}"
+
     valor_corrente_premio, linhas = adicionar_linha(
-        "Embarque_2", "Quantidade de Embarque", bloco.get("DS_QTDEMBARQUE"), bloco.get(cobertura_id),
-        valor_corrente_premio, linhas, numero_cotacao=numero_cotacao, versao_cotacao=versao, data_criacao_cotacao=data_criacao)
+        "Embarque_2",
+        "Quantidade de Embarque",
+        descricao,
+        bloco.get("fator_medio"),
+        valor_corrente_premio,
+        linhas,
+        numero_cotacao=numero_cotacao,
+        versao_cotacao=versao,
+        data_criacao_cotacao=data_criacao
+    )
 
     # EMBARQUE: LMI
     bloco = resposta_json.get("isagrupcobertura", {})
@@ -765,11 +989,33 @@ def calcular_precificacao():
         valor_corrente_premio, linhas, numero_cotacao=numero_cotacao, versao_cotacao=versao, data_criacao_cotacao=data_criacao)
 
 
-    # FATOR PERFIL DO MOTORISTA
-    for i, item in enumerate(resposta_json.get("perfil_motorista", {}).get("relatividades", []), start=1):
-        valor_corrente_premio, linhas = adicionar_linha(
-            f"Perfil_motorista_{i}", "Perfil do Motorista", item.get("DS_PERFMOTORISTA"), item.get(cobertura_id),
-            valor_corrente_premio, linhas, numero_cotacao=numero_cotacao, versao_cotacao=versao, data_criacao_cotacao=data_criacao)
+    # FATOR PERFIL DO MOTORISTA código fechado, este item estava multiplicando todas as relatividades o que estava agravando o preço - 29/04/2026
+    #for i, item in enumerate(resposta_json.get("perfil_motorista", {}).get("relatividades", []), start=1):
+    #    valor_corrente_premio, linhas = adicionar_linha(
+    #        f"Perfil_motorista_{i}", "Perfil do Motorista", item.get("DS_PERFMOTORISTA"), item.get(cobertura_id),
+    #        valor_corrente_premio, linhas, numero_cotacao=numero_cotacao, versao_cotacao=versao, data_criacao_cotacao=data_criacao)
+
+
+    # FATOR PERFIL DO MOTORISTA (média ponderada por quantidade de frota) 29/04/2026 - mantém a estrutura antiga de resposta para compatibilidade, mas o cálculo deve usar o fator_medio ponderado pelo tipo de motorista
+    bloco = resposta_json.get("perfil_motorista", {})
+
+    # opcional: descrição dos perfis selecionados
+    descricoes = [
+        item.get("DS_PERFMOTORISTA")
+        for item in bloco.get("relatividades", [])
+    ]
+
+    valor_corrente_premio, linhas = adicionar_linha(
+        "perfil_motorista",
+        "Perfil do Motorista",
+        ", ".join(descricoes) if descricoes else "N/A",
+        bloco.get("fator_medio"),
+        valor_corrente_premio,
+        linhas,
+        numero_cotacao=numero_cotacao,
+        versao_cotacao=versao,
+        data_criacao_cotacao=data_criacao
+    )
 
     # FATOR TIPO DE SEGURO
     for i, item in enumerate(resposta_json.get("tipos_seguro", []), start=1):
@@ -777,26 +1023,68 @@ def calcular_precificacao():
             f"Tipo de Seguro_{i}", "Tipo de Seguro", item.get("DS_TIPSEGURO"), item.get(cobertura_id),
             valor_corrente_premio, linhas, numero_cotacao=numero_cotacao, versao_cotacao=versao, data_criacao_cotacao=data_criacao)
 
-    # FATOR CLASSE
-    for chave, dados in resposta_json.get("ft_classe", {}).items():
-        classe_info = dados.get("relatividade", {})
-        valor_corrente_premio, linhas = adicionar_linha(
-            chave, "Classe do Produto", classe_info.get("DS_CLASSEPRODUTO"), classe_info.get(cobertura_id),
-            valor_corrente_premio, linhas, numero_cotacao=numero_cotacao, versao_cotacao=versao, data_criacao_cotacao=data_criacao)
+    # FATOR CLASSE Metodo antigo estava multiplicando todoas as relatividades das classes o que estava agravando o preço, agora cada classe tem seu peso e é calculado a média ponderada considerando o peso de cada classe 29/04/2026
+    #for chave, dados in resposta_json.get("ft_classe", {}).items():
+    #    classe_info = dados.get("relatividade", {})
+    #    valor_corrente_premio, linhas = adicionar_linha(
+    #        chave, "Classe do Produto", classe_info.get("DS_CLASSEPRODUTO"), classe_info.get(cobertura_id),
+    #        valor_corrente_premio, linhas, numero_cotacao=numero_cotacao, versao_cotacao=versao, data_criacao_cotacao=data_criacao)
 
-    # FATOR UF
-    for chave, uf_info in resposta_json.get("ft_uf", {}).items():
-        valor_corrente_premio, linhas = adicionar_linha(
-            chave, "UF", uf_info.get("DS_UF"), uf_info.get(cobertura_id),
-            valor_corrente_premio, linhas, numero_cotacao=numero_cotacao, versao_cotacao=versao, data_criacao_cotacao=data_criacao)
 
-    # Linha de Prêmio de Risco até UF
+    # FATOR CLASSE (média ponderada) criado dia 29/04/2026 - mantém a estrutura antiga de resposta para compatibilidade, mas o cálculo usar o fator_medio ponderado pelo % de cada classe transportada
+    bloco = resposta_json.get("ft_classe", {})
+
+    classes_selecionadas = [
+        k.replace("classe_", "") 
+        for k in bloco.keys() 
+        if k.startswith("classe_")
+    ]
+
     valor_corrente_premio, linhas = adicionar_linha(
-        "Prêmio de Risco", "", "", "", valor_corrente_premio, linhas,
-        premio=round(valor_corrente_premio, 4), 
+        "classe",
+        "Classe do Produto",
+        ", ".join(classes_selecionadas),
+        bloco.get("fator_medio"),
+        valor_corrente_premio,
+        linhas,
         numero_cotacao=numero_cotacao,
         versao_cotacao=versao,
-        data_criacao_cotacao=data_criacao)
+        data_criacao_cotacao=data_criacao
+    )
+
+    # FATOR UF antigo - mantido para compatibilidade, mas não deve ser usado para cálculo direto
+#    for chave, uf_info in resposta_json.get("ft_uf", {}).items():
+
+ #       valor_corrente_premio, linhas = adicionar_linha(
+  #          chave, "UF", uf_info.get("DS_UF"), uf_info.get(cobertura_id),
+   #         valor_corrente_premio, linhas, numero_cotacao=numero_cotacao, versao_cotacao=versao, data_criacao_cotacao=data_criacao)
+
+    # Linha de Prêmio de Risco até UF
+    #valor_corrente_premio, linhas = adicionar_linha(
+     #   "Prêmio de Risco", "", "", "", valor_corrente_premio, linhas,
+      #  premio=round(valor_corrente_premio, 4), 
+       # numero_cotacao=numero_cotacao,
+        #versao_cotacao=versao,
+        #data_criacao_cotacao=data_criacao)
+    
+    # FATOR UF (usando média simples) - adicionado dia 29/04/26 - mantém a estrutura antiga de resposta para compatibilidade, mas o cálculo deve usar o fator_medio
+    bloco_uf = resposta_json.get("ft_uf", {})
+
+    # lista de UFs só para exibição
+    ufs_selecionadas = [k.replace("uf_", "") for k in bloco_uf.keys() if k.startswith("uf_")]
+
+    valor_corrente_premio, linhas = adicionar_linha(
+        "uf",
+        "UF",
+        ", ".join(ufs_selecionadas),
+        bloco_uf.get("fator_medio"),
+        valor_corrente_premio,
+        linhas,
+        numero_cotacao=numero_cotacao,
+        versao_cotacao=versao,
+        data_criacao_cotacao=data_criacao
+    )
+
 
     #####################################################################################################################
     #BLOCO 1 CARREGAMENTO: 1-Inflação de Sinistro, 2-Tendências Estatística e 3-IBNR
