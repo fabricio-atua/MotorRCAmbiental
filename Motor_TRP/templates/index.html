@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cotação Transporte</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container-fluid p-4">
+
+<form id="formCotacao">
+
+<!-- ===================================================== -->
+<!-- TOPO -->
+<!-- ===================================================== -->
+
+<div class="position-relative mb-4">
+
+    <!-- ============================================= -->
+    <!-- TITULO CENTRALIZADO -->
+    <!-- ============================================= -->
+
+    <h2 class="text-center m-0">
+
+        COTAÇÃO TRANSPORTE - STG SEGUROS
+
+    </h2>
+
+    <!-- ============================================= -->
+    <!-- LOGO DIREITA -->
+    <!-- ============================================= -->
+
+    <img
+        src="{{ url_for('static', filename='img/New_logo.png') }}"
+        style="
+            height:60px;
+            position:absolute;
+            right:0;
+            top:50%;
+            transform:translateY(-50%);
+        "
+    >
+
+</div>
+
+<!-- ===================================================== -->
+<!-- PRODUTOS -->
+<!-- ===================================================== -->
+
+<div class="row mb-4">
+
+    <!-- ============================================= -->
+    <!-- CARD PRODUTOS -->
+    <!-- ============================================= -->
+
+    <div class="col-md-4">
+
+        <div class="card h-100">
+
+            <div class="card-header">
+
+                Produtos
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="form-check mb-3">
+
+                    <input
+                        class="form-check-input produto-check"
+                        type="checkbox"
+                        value="RCTR-C"
+                        id="produto_rctr"
+                        name="produtos[]"
+                    >
+
+                    <label
+                        class="form-check-label"
+                        for="produto_rctr"
+                    >
+                        RCTR-C
+                    </label>
+
+                </div>
+
+                <div class="form-check mb-3">
+
+                    <input
+                        class="form-check-input produto-check"
+                        type="checkbox"
+                        value="RC-DC"
+                        id="produto_rcdc"
+                        name="produtos[]"
+                    >
+
+                    <label
+                        class="form-check-label"
+                        for="produto_rcdc"
+                    >
+                        RC-DC
+                    </label>
+
+                </div>
+
+                <div class="form-check mb-3">
+
+                    <input
+                        class="form-check-input produto-check"
+                        type="checkbox"
+                        value="TN"
+                        id="produto_tn"
+                        name="produtos[]"
+                    >
+
+                    <label
+                        class="form-check-label"
+                        for="produto_tn"
+                    >
+                        TN - Transporte Nacional
+                    </label>
+
+                </div>
+
+                <div class="form-check">
+
+                    <input
+                        class="form-check-input produto-check"
+                        type="checkbox"
+                        value="TI"
+                        id="produto_ti"
+                        name="produtos[]"
+                    >
+
+                    <label
+                        class="form-check-label"
+                        for="produto_ti"
+                    >
+                        TI - Transporte Internacional
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ============================================= -->
+    <!-- CARD CONFIGURAÇÕES -->
+    <!-- ============================================= -->
+
+    <div class="col-md-8">
+
+        <div class="card h-100">
+
+            <div class="card-header">
+
+                Configurações da Cotação
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <!-- ===================================== -->
+                    <!-- MODAL TI -->
+                    <!-- ===================================== -->
+
+                    <div
+                        class="col-md-6 mb-3"
+                        id="bloco_modal"
+                        style="display:none;"
+                    >
+
+                        <label class="form-label">
+
+                            Modal Transporte Internacional
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="modal"
+                            id="modal"
+                        >
+
+                            <option value="RODOVIARIO">
+                                Rodoviário
+                            </option>
+
+                            <option value="MARITIMO">
+                                Marítimo
+                            </option>
+
+                            <option value="AEREO">
+                                Aéreo
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- ===================================== -->
+                    <!-- COMISSÃO -->
+                    <!-- ===================================== -->
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+
+                            Comissão (%)
+
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.01"
+                            class="form-control"
+                            name="comissao"
+                            value="0.01"
+                        >
+
+                    </div>
+
+                    <!-- ===================================== -->
+                    <!-- POSSUI GR -->
+                    <!-- ===================================== -->
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+
+                            Possui GR?
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="possui_gr"
+                            id="possui_gr"
+                        >
+
+                            <option value="Sim">
+                                Sim
+                            </option>
+
+                            <option value="Não">
+                                Não
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- ===================================== -->
+                    <!-- EMPRESA GR -->
+                    <!-- ===================================== -->
+
+                    <div
+                        class="col-md-6"
+                        id="empresa_gr_div"
+                    >
+
+                        <label class="form-label">
+
+                            Empresa GR
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="empresa_gr"
+                        >
+
+                            <option>
+                                Buonny
+                            </option>
+
+                            <option>
+                                GRISTEC
+                            </option>
+
+                            <option>
+                                BRK
+                            </option>
+
+                            <option>
+                                Omnilink
+                            </option>
+
+                            <option>
+                                SASCAR
+                            </option>
+
+                            <option>
+                                Outra
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                        
+
+    <!-- ===================================================== -->
+    <!-- VIAGENS RCTR -->
+    <!-- ===================================================== -->
+
+    <div
+        class="card mb-4"
+        id="bloco_rctr"
+        style="display:none;"
+    >
+
+        <div class="card-header">
+            Informações Operacionais - RCTR-C
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Valor transportado mensal
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="valor_mensal_rctr"
+                        value="350000"
+                    >
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Viagens por mês
+                    </label>
+
+                    <select
+                        class="form-select"
+                        name="viagens_mes_rctr"
+                    >
+
+                        {% for item in viagens %}
+
+                        <option value="{{ item }}">
+                            {{ item }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Maior valor por viagem
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="maior_valor_viagem_rctr"
+                        value="80000"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- VIAGENS RC-DC -->
+    <!-- ===================================================== -->
+
+    <div
+        class="card mb-4"
+        id="bloco_rcdc"
+        style="display:none;"
+    >
+
+        <div class="card-header">
+            Informações Operacionais - RC-DC
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Valor transportado mensal
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="valor_mensal_rcdc"
+                        value="200000"
+                    >
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Viagens por mês
+                    </label>
+
+                    <select
+                        class="form-select"
+                        name="viagens_mes_rcdc"
+                    >
+
+                        {% for item in viagens %}
+
+                        <option value="{{ item }}">
+                            {{ item }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Maior valor por viagem
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="maior_valor_viagem_rcdc"
+                        value="80000"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- VIAGENS TN -->
+    <!-- ===================================================== -->
+
+    <div
+        class="card mb-4"
+        id="bloco_tn"
+        style="display:none;"
+    >
+
+        <div class="card-header">
+            Informações Operacionais - TN
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Valor transportado mensal
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="valor_mensal_tn"
+                        value="200000"
+                    >
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Viagens por mês
+                    </label>
+
+                    <select
+                        class="form-select"
+                        name="viagens_mes_tn"
+                    >
+
+                        {% for item in viagens %}
+
+                        <option value="{{ item }}">
+                            {{ item }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Maior valor por viagem
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="maior_valor_viagem_tn"
+                        value="80000"
+                    >
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Distância média
+                    </label>
+
+                    <select
+                        class="form-select"
+                        name="distancia_tn"
+                    >
+
+                        <option value="">
+                            Selecione
+                        </option>
+
+                        <option value="Baixa Distância">
+                            Baixa Distância (até 200 km)
+                        </option>
+
+                        <option value="Média Distancia">
+                            Média Distância (201 a 600 km)
+                        </option>
+
+                        <option value="Alta Distância">
+                            Alta Distância (601 a 1.200 km)
+                        </option>
+
+                        <option value="Crítica Distância">
+                            Crítica Distância (acima 1.200 km)
+                        </option>
+
+                    </select>
+
+                </div>
+              
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- VIAGENS TI -->
+    <!-- ===================================================== -->
+
+    <div
+        class="card mb-4"
+        id="bloco_ti"
+        style="display:none;"
+    >
+
+        <div class="card-header">
+            Informações Operacionais - TI
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Valor transportado mensal
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="valor_mensal_ti"
+                        value="200000"
+                    >
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Viagens por mês
+                    </label>
+
+                    <select
+                        class="form-select"
+                        name="viagens_mes_ti"
+                    >
+
+                        {% for item in viagens %}
+
+                        <option value="{{ item }}">
+                            {{ item }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Maior valor por viagem
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="maior_valor_viagem_ti"
+                        value="80000"
+                    >
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+        <!-- ===================================================== -->
+        <!-- MERCADORIAS -->
+        <!-- ===================================================== -->
+
+        <div class="card mb-4">
+
+            <div class="card-header">
+                Mercadorias Transportadas
+            </div>
+
+            <div class="card-body">
+
+                <table class="table table-bordered" id="tabelaMercadorias">
+
+                    <thead>
+
+                    <tr>
+                        <th>Mercadoria</th>
+                        <th width="200">Mix %</th>
+                        <th width="100"></th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+
+                        <td>
+
+                            <select
+                                    class="form-select"
+                                    name="mercadoria[]"
+                                >
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    {% for codigo, descricao in mercadorias.items() %}
+
+                                    <option value="{{ codigo }}">
+                                        {{ descricao }}
+                                    </option>
+
+                                    {% endfor %}
+
+                            </select>
+
+                        </td>
+
+                        <td>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="mix[]"
+                                value="0"
+                            >
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                onclick="removerLinha(this)"
+                            >
+                                X
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="adicionarMercadoria()"
+                >
+                    + Adicionar Mercadoria
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- ROTAS -->
+        <!-- ===================================================== -->
+
+        <div class="card mb-4">
+
+            <div class="card-header">
+                Rotas
+            </div>
+
+            <div class="card-body">
+
+                <table class="table table-bordered" id="tabelaRotas">
+
+                    <thead>
+
+                    <tr>
+                        <th>UF Origem</th>
+                        <th>UF Destino</th>
+                        <th>%</th>
+                        <th></th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+
+                        <td>
+
+                            <select
+                                    class="form-select"
+                                    name="origem[]"
+                                >
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    {% for uf in ufs %}
+
+                                    <option value="{{ uf }}">
+                                        {{ uf }}
+                                    </option>
+
+                                    {% endfor %}
+
+                            </select>
+
+                        </td>
+
+                        <td>
+
+                            <select
+                                    class="form-select"
+                                    name="destino[]"
+                                >
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    {% for uf in ufs %}
+
+                                    <option value="{{ uf }}">
+                                        {{ uf }}
+                                    </option>
+
+                                    {% endfor %}
+
+                            </select>
+
+                        </td>
+
+                        <td>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="percentual[]"
+                                value="0"
+                            >
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                onclick="removerLinha(this)"
+                            >
+                                X
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="adicionarRota()"
+                >
+                    + Adicionar Rota
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- COMPLEMENTARES -->
+        <!-- ===================================================== -->
+
+        <div class="card mb-4">
+
+            <div class="card-header">
+                Informações Complementares
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Viagens Noturnas
+                        </label>
+
+                        <select class="form-select" name="faixa_noturna">
+
+                            {% for item in noturnos %}
+                            <option value="{{ item }}">
+                                {{ item }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Rota Crítica
+                        </label>
+
+                        <select class="form-select" name="rota_critica">
+
+                            {% for item in rotas %}
+                            <option value="{{ item }}">
+                                {{ item }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Idade Frota
+                        </label>
+
+                        <select class="form-select" name="idade_frota">
+
+                            {% for item in idades %}
+                            <option value="{{ item }}">
+                                {{ item }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            % terceiros/agregados
+                        </label>
+
+                        <select class="form-select" name="pct_terceiros">
+
+                            {% for item in terceiros %}
+                            <option value="{{ item }}">
+                                {{ item }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- SINISTROS -->
+        <!-- ===================================================== -->
+
+        <div class="card mb-4">
+
+            <div class="card-header">
+                Sinistros
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Teve sinistro?
+                        </label>
+
+                        <select class="form-select" name="teve_sinistro">
+                            <option>Não</option>
+                            <option>Sim</option>
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Quantidade Sinistros
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="qtd_sinistros"
+                            value="0"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Valor Sinistros
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="valor_sinistros"
+                            value="0"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Roubo/desaparecimento?
+                        </label>
+
+                        <select class="form-select" name="houve_roubo">
+                            <option>Não</option>
+                            <option>Sim</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===================================================== -->
+        <!-- COBERTURAS RCTR -->
+        <!-- ===================================================== -->
+
+        <div
+            class="card mb-4"
+            id="bloco_cob_rctr"
+        >
+
+            <div class="card-header">
+                Coberturas Adicionais - RCTR-C
+            </div>
+
+            <div class="card-body">
+
+                <h4 class="mb-4">
+                    RCTR-C (até 5 adicionais)
+                </h4>
+
+                <table
+                    class="table table-bordered"
+                    id="tabelaCobRCTR"
+                >
+
+                    <thead>
+
+                    <tr>
+                        <th>Cobertura</th>
+                        <th width="200">LMI</th>
+                        <th width="150">Franquia %</th>
+                        <th width="80"></th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+
+                        <td>
+
+                            <select
+                                class="form-select"
+                                name="cob_rctr[]"
+                            >
+
+                                <option value="">
+                                    Selecione
+                                </option>
+
+                                {% for codigo, info in coberturas_adicionais["RCTR-C"].items() %}
+
+                                    {% if info["ativa"] %}
+
+                                    <option value="{{ codigo }}">
+
+                                        {{ codigo }} - {{ info["nome"] }}
+
+                                    </option>
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </select>
+
+                        </td>
+
+                        <td>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="lmi_rctr[]"
+                                value="0"
+                            >
+
+                        </td>
+
+                        <td>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="franquia_rctr[]"
+                                value="10"
+                            >
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                onclick="removerLinha(this)"
+                            >
+                                X
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="adicionarCobRCTR()"
+                >
+                    + Adicionar Cobertura RCTR
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- COBERTURAS RCDC -->
+        <!-- ===================================================== -->
+
+        <div
+            class="card mb-4"
+            id="bloco_cob_rcdc"
+        >
+
+            <div class="card-header">
+                Coberturas Adicionais - RC-DC
+            </div>
+
+            <div class="card-body">
+
+                <h4 class="mb-4">
+                    RC-DC (até 4 adicionais)
+                </h4>
+
+                <table
+                    class="table table-bordered"
+                    id="tabelaCobRCDC"
+                >
+
+                    <thead>
+
+                    <tr>
+                        <th>Cobertura</th>
+                        <th width="200">LMI</th>
+                        <th width="150">Franquia %</th>
+                        <th width="80"></th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+
+                        <td>
+
+                            <select
+                                class="form-select"
+                                name="cob_rcdc[]"
+                            >
+
+                                <option value="">
+                                    Selecione
+                                </option>
+
+                                {% for codigo, info in coberturas_adicionais["RC-DC"].items() %}
+
+                                    {% if info["ativa"] %}
+
+                                    <option value="{{ codigo }}">
+
+                                        {{ codigo }} - {{ info["nome"] }}
+
+                                    </option>
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </select>
+
+                        </td>
+
+                        <td>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="lmi_rcdc[]"
+                                value="0"
+                            >
+
+                        </td>
+
+                        <td>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="franquia_rcdc[]"
+                                value="10"
+                            >
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                onclick="removerLinha(this)"
+                            >
+                                X
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="adicionarCobRCDC()"
+                >
+                    + Adicionar Cobertura RC-DC
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ===================================================== -->
+        <!-- COBERTURAS TN -->
+        <!-- ===================================================== -->
+
+        <div
+            class="card mb-4"
+            id="bloco_cob_tn"
+            style="display:none;"
+        >
+
+            <div class="card-header">
+
+                Coberturas Adicionais - TN
+
+            </div>
+
+            <div class="card-body">
+
+                <table class="table table-bordered">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Cobertura</th>
+                            <th>LMI</th>
+                            <th>Ação</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tbody_cob_tn">
+
+                        <tr>
+
+                            <td>
+
+                                <select
+                                    class="form-select cobertura-select"
+                                    name="cobertura_tn[]"
+                                >
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    {% for codigo, item in coberturas_tn.items() %}
+
+                                    <option value="{{ codigo }}">
+
+                                        {{ codigo }} - {{ item.nome }}
+
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                            </td>
+
+                            <td>
+
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    name="lmi_tn[]"
+                                >
+
+                            </td>
+
+                            <td class="text-center">
+
+                                <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    onclick="removerLinha(this)"
+                                >
+
+                                    X
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="adicionarCoberturaTN()"
+                >
+                    + Adicionar Cobertura TN
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ===================================================== -->
+        <!-- COBERTURAS TI -->
+        <!-- ===================================================== -->
+
+        <div
+            class="card mb-4"
+            id="bloco_cob_ti"
+            style="display:none;"
+        >
+
+            <div class="card-header">
+
+                Coberturas Adicionais - TI
+
+            </div>
+
+            <div class="card-body">
+
+                <table class="table table-bordered">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Cobertura</th>
+                            <th>LMI</th>
+                            <th>Ação</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tbody_cob_ti">
+
+                        <tr>
+
+                            <td>
+
+                                <select
+                                    class="form-select cobertura-select"
+                                    name="cobertura_ti[]"
+                                >
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    {% for codigo, item in coberturas_ti.items() %}
+
+                                    <option value="{{ codigo }}">
+
+                                        {{ codigo }} - {{ item.nome }}
+
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                            </td>
+
+                            <td>
+
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    name="lmi_ti[]"
+                                >
+
+                            </td>
+
+                            <td class="text-center">
+
+                                <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    onclick="removerLinha(this)"
+                                >
+
+                                    X
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="adicionarCoberturaTI()"
+                    >
+
+                        + Adicionar Cobertura TI
+
+                    </button>
+
+            </div>
+
+        </div>
+
+        <!-- ===================================================== -->
+        <!-- BOTÃO CALCULAR-->
+        <!-- ===================================================== -->
+
+        <div class="text-center">
+
+            <button
+                type="button"
+                onclick="enviarCotacao()"
+                class="btn btn-success btn-lg px-5 mb-5"
+            >
+                CALCULAR COTAÇÃO
+            </button>
+
+        </div>
+
+    </form>
+
+    <!-- ===================================================== -->
+    <!-- ERRO -->
+    <!-- ===================================================== -->
+
+    {% if erro %}
+
+    <div class="alert alert-danger mb-4">
+
+        <strong>
+
+            ERRO:
+
+        </strong>
+
+        {{ erro }}
+
+    </div>
+
+    {% endif %}
+
+
+
+    <!-- ===================================================== -->
+    <!-- RESULTADO -->
+    <!-- ===================================================== -->
+
+    {% if resultado_principal %}
+    <div class="card mb-5">
+        <div class="card-header bg-success text-white">
+            Resultado da Cotação
+        </div>
+        <div class="card-body">
+            <!-- ============================================= -->
+            <!-- COBERTURAS BÁSICAS -->
+            <!-- ============================================= -->
+            <h5 class="mb-3">
+                Coberturas Básicas
+            </h5>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            {% for coluna in resultado_principal[0].keys() %}
+                            <th>
+                                {{ coluna }}
+                            </th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for linha in resultado_principal %}
+                        <tr>
+                            {% for valor in linha.values() %}
+                            <td>
+                                {{ valor }}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- ===================================================== -->
+    <!-- COBERTURAS ADICIONAIS -->
+    <!-- ===================================================== -->
+    {% if resultado_coberturas %}
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            Coberturas Adicionais
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            {% for coluna in resultado_coberturas[0].keys() %}
+                            <th>
+                                {{ coluna }}
+                            </th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for linha in resultado_coberturas %}
+                        <tr>
+                            {% for valor in linha.values() %}
+                            <td>
+                                {{ valor }}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- ===================================================== -->
+    <!-- TOTAL GERAL -->
+    <!-- ===================================================== -->
+    {% if total_geral %}
+    <div class="alert alert-success mb-5">
+        <h4 class="mb-0">
+            TOTAL GERAL:
+            <strong>
+                R$
+                {{
+                    "{:,.2f}".format(
+                        total_geral
+                    )
+                }}
+            </strong>
+        </h4>
+    </div>
+    {% endif %}
+
+    <!-- ===================================================== -->
+    <!-- MEMÓRIA DE CÁLCULO -->
+    <!-- ===================================================== -->
+
+    {% if resultado_memoria %}
+    <div class="card mb-5 mt-4 shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">
+                Memória de Cálculo
+            </h5>
+
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-success">
+                    <tr>
+                        <th>
+                            Pergunta
+                        </th>
+
+                        <th>
+                            Resposta
+                        </th>
+
+                        <th>
+                            Fator
+                        </th>
+
+                        <th>
+                            Prêmio Evolutivo
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for linha in resultado_memoria %}
+
+                    <tr>
+
+                        <td>
+                            {{ linha["Pergunta"] }}
+                        </td>
+
+                        <td>
+                            {{ linha["Resposta"] }}
+                        </td>
+
+                        <td>
+
+                            {% if linha["Fator"] is number %}
+
+                                {{ "%.4f"|format(linha["Fator"]) }}
+
+                            {% else %}
+
+                                {{ linha["Fator"] }}
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            R$
+
+                            {{ "{:,.2f}".format(
+                                linha["Premio"]
+                            ) }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+<script src="{{ url_for('static', filename='js/regra_index.js') }}"></script>
+
+
+<div
+    id="resultadoCotacao"
+    class="mt-5"
+></div>
+
+
+
+
+</body>
+</html>

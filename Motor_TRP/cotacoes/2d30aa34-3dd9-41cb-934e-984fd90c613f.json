@@ -1,0 +1,185 @@
+{
+    "id_cotacao": "2d30aa34-3dd9-41cb-934e-984fd90c613f",
+    "data_cotacao": "2026-05-13T17:00:59.225034",
+    "status": "sucesso",
+    "versao_motor": "1.0.0",
+    "usuario": {
+        "nome": "Fabricio Lopes"
+    },
+    "payload_entrada": {
+        "usuario": {
+            "nome": "Fabricio Lopes"
+        },
+        "produtos": [
+            "TN"
+        ],
+        "comissao": 0.01,
+        "possui_gr": "Sim",
+        "empresa_gr": "Buonny",
+        "faixa_noturna": "0_10",
+        "rota_critica": "Não",
+        "idade_frota": "Ate_5",
+        "pct_terceiros": "Ate_20",
+        "valor_sinistros": 0,
+        "mercadorias": [
+            {
+                "codigo": "M016",
+                "mix": 100
+            }
+        ],
+        "rotas": [
+            {
+                "origem": "AM",
+                "destino": "AM"
+            }
+        ],
+        "coberturas_adicionais": [
+            {
+                "produto": "TN",
+                "cobertura": "55004",
+                "lmi": 15000
+            }
+        ],
+        "viagens_mes_tn": "Ate_10",
+        "valor_mensal_tn": 20000,
+        "distancia_tn": "Baixa Distância"
+    },
+    "dados_motor": {
+        "TN": {
+            "valor_mensal": 20000.0,
+            "fator_viagens": 1.07,
+            "fator_noturno": 1.02,
+            "fator_rota_critica": 1.0,
+            "fator_distancia": 1.0,
+            "fator_idade": 0.97,
+            "fator_terceiros": 1.02,
+            "fator_sinistro": 1.0,
+            "mercadorias": [
+                {
+                    "codigo": "M016",
+                    "mix": 100
+                }
+            ],
+            "rotas": [
+                {
+                    "origem": "AM",
+                    "destino": "AM"
+                }
+            ],
+            "coberturas_adicionais": [
+                {
+                    "produto": "TN",
+                    "cobertura": "55004",
+                    "lmi": 15000
+                }
+            ]
+        }
+    },
+    "resultado": {
+        "principal": [
+            {
+                "Produto": "TN",
+                "Taxa Base": 0.0011,
+                "Taxa Final": 0.001334,
+                "IS Anual": 240000.0,
+                "Prêmio Risco": 325.65,
+                "Prêmio Comercial": 328.88,
+                "Prêmio Final": 328.88
+            }
+        ],
+        "coberturas": [
+            {
+                "Produto": "TN",
+                "Código": "55004",
+                "Cobertura": "FURTO QUALIFICADO",
+                "LMI": 15000.0,
+                "Taxa": 3e-05,
+                "Franquia": 0.1,
+                "Prêmio Risco": 5.4,
+                "Prêmio Comercial": 5.45,
+                "Prêmio Final": 5.45
+            }
+        ],
+        "memoria_calculo": [
+            {
+                "Pergunta": "Taxa Base",
+                "Resposta": "TN",
+                "Fator": 0.0011,
+                "Premio": 264.0
+            },
+            {
+                "Pergunta": "Viagens",
+                "Resposta": 1.07,
+                "Fator": 1.07,
+                "Premio": 282.48
+            },
+            {
+                "Pergunta": "Noturno",
+                "Resposta": 1.02,
+                "Fator": 1.02,
+                "Premio": 288.13
+            },
+            {
+                "Pergunta": "Rota Crítica",
+                "Resposta": 1.0,
+                "Fator": 1.0,
+                "Premio": 288.13
+            },
+            {
+                "Pergunta": "Idade Frota",
+                "Resposta": 0.97,
+                "Fator": 0.97,
+                "Premio": 279.49
+            },
+            {
+                "Pergunta": "% Terceiros",
+                "Resposta": 1.02,
+                "Fator": 1.02,
+                "Premio": 285.08
+            },
+            {
+                "Pergunta": "Sinistro",
+                "Resposta": 1.0,
+                "Fator": 1.0,
+                "Premio": 285.08
+            },
+            {
+                "Pergunta": "Mercadoria",
+                "Resposta": "Mercadorias",
+                "Fator": 1.08,
+                "Premio": 307.88
+            },
+            {
+                "Pergunta": "UF",
+                "Resposta": "Rotas",
+                "Fator": 1.04,
+                "Premio": 320.2
+            },
+            {
+                "Pergunta": "Comissão",
+                "Resposta": "0.01%",
+                "Fator": 1.0101,
+                "Premio": 323.43
+            },
+            {
+                "Pergunta": "IOF",
+                "Resposta": "1e-05%",
+                "Fator": 1.0,
+                "Premio": 323.43
+            },
+            {
+                "Pergunta": "Coberturas",
+                "Resposta": "Adicionais",
+                "Fator": "-",
+                "Premio": 5.45
+            },
+            {
+                "Pergunta": "TOTAL GERAL",
+                "Resposta": "TN",
+                "Fator": "-",
+                "Premio": 328.88
+            }
+        ],
+        "total_geral": 334.33
+    }
+}

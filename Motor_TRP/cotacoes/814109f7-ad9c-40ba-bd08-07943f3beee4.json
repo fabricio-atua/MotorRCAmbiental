@@ -1,0 +1,200 @@
+{
+    "id_cotacao": "814109f7-ad9c-40ba-bd08-07943f3beee4",
+    "data_cotacao": "2026-05-15T13:30:57.391187",
+    "status": "sucesso",
+    "versao_motor": "1.0.0",
+    "usuario": {
+        "nome": "Fabricio Lopes"
+    },
+    "payload_entrada": {
+        "usuario": {
+            "nome": "Fabricio Lopes"
+        },
+        "produtos": [
+            "RC-DC"
+        ],
+        "comissao": 0.01,
+        "possui_gr": "Sim",
+        "empresa_gr": "Buonny",
+        "faixa_noturna": "0_10",
+        "rota_critica": "Não",
+        "idade_frota": "Ate_5",
+        "pct_terceiros": "Ate_20",
+        "valor_sinistros": 150000,
+        "mercadorias": [
+            {
+                "codigo": "M004",
+                "mix": 50
+            },
+            {
+                "codigo": "M003",
+                "mix": 50
+            }
+        ],
+        "rotas": [
+            {
+                "origem": "BA",
+                "destino": "CE"
+            },
+            {
+                "origem": "AP",
+                "destino": "BA"
+            }
+        ],
+        "coberturas_adicionais": [
+            {
+                "produto": "RC-DC",
+                "cobertura": "55001",
+                "lmi": 15000
+            }
+        ],
+        "viagens_mes_rcdc": "601_1.500",
+        "valor_mensal_rcdc": 200000
+    },
+    "dados_motor": {
+        "RC-DC": {
+            "valor_mensal": 200000.0,
+            "fator_viagens": 0.95,
+            "fator_noturno": 1.0,
+            "fator_rota_critica": 1.0,
+            "fator_distancia": 1.0,
+            "fator_idade": 1.0,
+            "fator_terceiros": 1.0,
+            "fator_sinistro": 1.1,
+            "mercadorias": [
+                {
+                    "codigo": "M004",
+                    "mix": 50
+                },
+                {
+                    "codigo": "M003",
+                    "mix": 50
+                }
+            ],
+            "rotas": [
+                {
+                    "origem": "BA",
+                    "destino": "CE"
+                },
+                {
+                    "origem": "AP",
+                    "destino": "BA"
+                }
+            ],
+            "coberturas_adicionais": [
+                {
+                    "produto": "RC-DC",
+                    "cobertura": "55001",
+                    "lmi": 15000
+                }
+            ]
+        }
+    },
+    "resultado": {
+        "principal": [
+            {
+                "Produto": "RC-DC",
+                "Taxa Base": 0.00085,
+                "Taxa Final": 0.001099,
+                "IS Anual": 2400000.0,
+                "Prêmio Risco": 2638.42,
+                "Prêmio Comercial": 2665.07,
+                "Prêmio Final": 2670.55
+            }
+        ],
+        "coberturas": [
+            {
+                "Produto": "RC-DC",
+                "Código": "55001",
+                "Cobertura": "ROUBO NO DEPÓSITO DO TRANSPORTADOR",
+                "LMI": 15000.0,
+                "Taxa": 3e-05,
+                "Franquia": 0.1,
+                "Prêmio Risco": 5.4,
+                "Prêmio Comercial": 5.45,
+                "Prêmio Final": 5.45
+            }
+        ],
+        "memoria_calculo": [
+            {
+                "Pergunta": "Taxa Base",
+                "Resposta": "RC-DC",
+                "Fator": 0.00085,
+                "Premio": 2040.0
+            },
+            {
+                "Pergunta": "Viagens",
+                "Resposta": 0.95,
+                "Fator": 0.95,
+                "Premio": 1938.0
+            },
+            {
+                "Pergunta": "Noturno",
+                "Resposta": 1.0,
+                "Fator": 1.0,
+                "Premio": 1938.0
+            },
+            {
+                "Pergunta": "Rota Crítica",
+                "Resposta": 1.0,
+                "Fator": 1.0,
+                "Premio": 1938.0
+            },
+            {
+                "Pergunta": "Idade Frota",
+                "Resposta": 1.0,
+                "Fator": 1.0,
+                "Premio": 1938.0
+            },
+            {
+                "Pergunta": "% Terceiros",
+                "Resposta": 1.0,
+                "Fator": 1.0,
+                "Premio": 1938.0
+            },
+            {
+                "Pergunta": "Sinistro",
+                "Resposta": 1.1,
+                "Fator": 1.1,
+                "Premio": 2131.8
+            },
+            {
+                "Pergunta": "Mercadoria",
+                "Resposta": "Mercadorias",
+                "Fator": 1.115,
+                "Premio": 2376.96
+            },
+            {
+                "Pergunta": "UF",
+                "Resposta": "Rotas",
+                "Fator": 1.11,
+                "Premio": 2638.42
+            },
+            {
+                "Pergunta": "Comissão",
+                "Resposta": "0.01%",
+                "Fator": 1.0101,
+                "Premio": 2665.07
+            },
+            {
+                "Pergunta": "IOF",
+                "Resposta": "1e-05%",
+                "Fator": 1.0,
+                "Premio": 2665.1
+            },
+            {
+                "Pergunta": "Coberturas",
+                "Resposta": "Adicionais",
+                "Fator": "-",
+                "Premio": 5.45
+            },
+            {
+                "Pergunta": "TOTAL GERAL",
+                "Resposta": "RC-DC",
+                "Fator": "-",
+                "Premio": 2670.55
+            }
+        ],
+        "total_geral": 2676.0
+    }
+}
